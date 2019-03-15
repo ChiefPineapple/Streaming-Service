@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Home Page</title>
+
+<body>
+<img src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
+<p style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
+<p style="background-color:orange;"><a href="ArtistProfilePage.html"><b>My Profile</b></a></p>
+<p style="background-color:orange;"><a href="FirstPage.html"><b>Sign Out</b></a></p>
+</body>
+<h2>Home</h2>
+<br />
+<p><b>Find a </b></p>
+<p><b>with</b></p>
+<input type="text" />
+<p><b>Musician        Title</b></p>
+<p><b>Song            Tags</b></p>
+<p><b>Playlist</b></p>
+
+//this is the form. it uses select tags to specify the dropdown menu. https://www.w3schools.com/html/html_forms.asp has examples of other types of forms
+// any field in a form should take the name of an attribute or entity in the database. 
+<div class="lookup">
+	<form action="lookup" method="POST"> //action is like a method name, POST is a secure way of sending http requests and all of our forms should be POST as far as i know
+		Find a  //this will all be in one line as long as theres no br tag
+		<select name="searchObject"> //name specifies how node will refer to this variable. in node, request.body.searchObject will hold the value the user selected
+			<option value="artist">Artist</option>
+			<option value="songs">Song</option>
+			<option value="playlist">Playlist/Album</option>
+		</select>
+		with 
+		<select name="attribute">
+			<option value="title">Title</option>
+			<option value="tags">Tags</option>
+		</select>
+		<input type="text" name="target" placeholder="Target" required>
+		<input type="submit">
+	</form>
+</div>
+
+</body>
+
+</html>
