@@ -1,27 +1,41 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
 
 <head>
 <meta charset="UTF-8">
 <title>First Page</title>
+<style>
+#div1
+{
+  border: 1px solid black;
+  align="center"
+}
+#div2
+{
+  border: 1px solid black;
+  align="center"
+}
+</style>
+</head>
+<body bgcolor="FFFF00">
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:300px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:5px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:300px; RIGHT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:5px; RIGHT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; RIGHT:30px;"/>
 
-<body>
-<img src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<p style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
-<h2>Pineapple Music Streaming</h2>
+<h2><p align="center"> Pineapple Music Streaming</p></h2>
 <br />
-<p><b>Username</b></p>
-<input type="username" />
-<p><b>Password</b></p>
-<input type="password" />
-<p style="background-color:orange;"><a href="CreateAccount.html"><b>Forgot Password</b></a></p>
-<p style="background-color:orange;"><a href="ForgotPassword.html"><b>Create Account</b></a></p>
-</body>
+<p align="center"><b>Username </b><input type="username" /></p>
 
+<p align="center"><b>Password </b><input type="password" /></p>
+<div id="content">
+<div id="div1">
+<p align="center" style="background-color:orange;"><a href="CreateAccount.html"><b>Forgot Password</b></a></p>
+</div>
+<div id="div2">
+<p align="center" style="background-color:orange;"><a href="ForgotPassword.html"><b>Create Account</b></a></p>
+</div>
+</body>
 </html>

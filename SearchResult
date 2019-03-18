@@ -4,24 +4,40 @@
 <head>
 <meta charset="UTF-8">
 <title>Result Page</title>
+<style>
 
-<body>
+</style>
+</head>
+<body bgcolor="FFFF00">
+<img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:380px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:125px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:380px; RIGHT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:125px; RIGHT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; RIGHT:30px;"/>
 
-<img src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<p style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
-<h2>Results</h2>
+<div id="content">
+
+<h2><p align="center">Results</p></h2>
 <br />
-<p><b>Find a  </b></p>    
-<p><b>with</b></p>
-<p><b>Musician    Title</b></p>
-<p><b>Song        Tags</b></p>
-<p><b>Playlist</b></p>
+<div class ="wrap">
+<form>
+
+<p align="center"><span style = "font-size: 18pz;">Find a </span>
+<select name="Finding">
+  <option></option>
+  <option value ="musician">Musician</option>
+  <option value ="song">Song</option>
+  <option value ="playlist">Playlist</option>
+</select><span style = "font-size: 18pz;">with </span>
+<select name="FindingWith">
+  <option></option>
+  <option value ="title">Title</option>
+  <option value ="tags">Tags</option>
+</select>
+</p>
+</form>
+</div>
 </body>
 
 </html>

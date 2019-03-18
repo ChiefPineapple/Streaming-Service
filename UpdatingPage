@@ -3,41 +3,50 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Uploading Page</title>
+<title>Updating Page</title>
+<style>
+#div1
+{
+  border: 1px solid black;
+  align="center"
+}
+#div2
+{
+  border: 1px solid black;
+  align="center"
+}
+</style>
+</head>
+<body bgcolor="FFFF00">
+ <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:380px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:65px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; LEFT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:380px; RIGHT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:65px; RIGHT:30px;"/>
+  <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; RIGHT:30px;"/>
+<div id="content">
+<div id="div1">
+<p style="background-color:orange;"><a href="FirstPage.html"><b>Back</b></a></p>
+</div>
+<h2><p align="center">My Profile</p></h2>
+<p align=“center”><b>Current</b></p>
+<br />
+<p align="center"><b>Username </b><input type="username" /></p>
+<p align="center"><b>Email </b><input type="email" /></p>
+<p align="center"><b>Password </b><input type="password" /></p>
+<p align="center"><b>Tags </b><input type="tags" /></p>
 
-<body>
-<img src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<p style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
-<p style="background-color:orange;"><a href="Non-ArtistProfilePage.html"><b>Back</b></a></p>
+<p align=“center”><b>Update</b></p>
+<p align="center"><b>Username </b><input type="username" /></p>
+<p align="center"><b>Email </b><input type="email" /></p>
+<p align="center"><b>Password </b><input type="password" /></p>
+<p align="center"><b>Tags </b><input type="tags" /></p>
+  <div id="div2">
+<p align="center" style="background-color:orange;"><a href="ArtistProfilePage.html"><b>Submit</b></a></p>
+</div>
 </body>
-<h2>My Profile</h2>
-<h3>Current
-<br />
-<p><b>Username</b></p>
-<input type="username" />
-<p><b>Email</b></p>
-<input type="email" />
-<p><b>Password </b></p>
-<input type="password" />
-<p><b>Tags</b></p>
-<input type="tags" />
-<h3>Update</h3>
-<br />
-<p><b>Username</b></p>
-<input type="username" />
-<p><b>Email</b></p>
-<input type="email" />
-<p><b>Password </b></p>
-<input type="password" />
-<p><b>Tags</b></p>
-<input type="tags" />
-<p style="background-color:orange;"><a href="Non-ArtistProfilePage.html"><b>Submit</b></a></p>
-</body>
+
+</html>
+
 
 </html>
