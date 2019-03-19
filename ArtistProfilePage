@@ -30,8 +30,19 @@
   border: 1px solid blue;
   align="center"
 }
+#playlist{
+list-style: none;
+}
+#playlist li a{
+color: black;
+text-decoration: none;
+}
+#playlist .current-song a{
+color: blue;
+}
 </style>
 </head>
+
 <body bgcolor="FFFF00">
 <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:380px; LEFT:30px;"/>
   <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:115px; LEFT:30px;"/>
@@ -39,7 +50,7 @@
   <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:380px; RIGHT:30px;"/>
   <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:115px; RIGHT:30px;"/>
   <img width="50" height="100" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:25px; RIGHT:30px;"/>
-
+<form>
 <div id="content">
   <div id="div1">
 <p align="center" style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
@@ -53,12 +64,82 @@
 <div id="div3">
 <p align="center" style="background-color:orange;"><b>My Playlist</b></p>
 </div>
+
+<audio src="" controls id="audioPlayer">
+</audio>
+<ul id="playlist">
+    <center><li class+"current-song"><a href="PUMP-UP-NOW.mp3">PUMP UP NOW</a></li></center>
+    <center><li><a href="chillax-bruh.mp3">chills bruh</a></li></center>
+</ul>
+<script src="https//code.jquery.com/jquery-2.2.0.js">
+<script src="audioPlayer.js"></script>
+</script>
+<script>
+    audioPlayer();
+    function audioPlayer(){
+         var currentSong = 0;
+         $("audioPlayer")[0].src = $("#playlist li a")[0];
+         $("audioPlayer")[0].play();
+         $("#playlist li a ").click(function(e){
+             e.preventDefault();
+             $("audioPlayer")[0].src = this;
+             $("audioPlayer")[0].play();
+             $("playlist li").removeClass("current-song");
+                currentSong = $(this).parent().addClass("current-song");
+         ]);
+         $("#audioPlayer")[0].addEventListener("ended", function())
+            currentSong++;
+             if(currentSong == $("#playlist li a").length)
+                 currentSong = 0;
+             $("#playlist li").removeClass("current-song");
+             $("#playlist li:eq("+currentSong+")").addClass("current-song");
+             $("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
+             $("#audioPlayer")[0].play();
+         ]);
+    }
+</script>
 <div id="div4">
 <p align="center" style="background-color:orange;"><b>My Uploads</b></p>
 </div>
+
+<audio src="" controls id="audioPlayer">
+</audio>
+<ul id="playlist">
+    <center><li class+"current-song"><a href="Alphabet-Aerobics.mp3">Alphabet Aerobics</a></li></center>
+    <center><li><a href="Thrift-Shop.mp3">Thrift Shop</a></li></center>
+</ul>
+<script src="https//code.jquery.com/jquery-2.2.0.js">
+<script src="audioPlayer.js"></script>
+</script>
+<script>
+    audioPlayer();
+    function audioPlayer(){
+         var currentSong = 0;
+         $("audioPlayer")[0].src = $("#playlist li a")[0];
+         $("audioPlayer")[0].play();
+         $("#playlist li a ").click(function(e){
+             e.preventDefault();
+             $("audioPlayer")[0].src = this;
+             $("audioPlayer")[0].play();
+             $("playlist li").removeClass("current-song");
+                currentSong = $(this).parent().addClass("current-song");
+         ]);
+         $("#audioPlayer")[0].addEventListener("ended", function())
+            currentSong++;
+             if(currentSong == $("#playlist li a").length)
+                 currentSong = 0;
+             $("#playlist li").removeClass("current-song");
+             $("#playlist li:eq("+currentSong+")").addClass("current-song");
+             $("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
+             $("#audioPlayer")[0].play();
+         ]);
+    }
+</script>
+
 <div id="div5">
 <p align="center" style="background-color:orange;"><b>Messages</b></p>
 </div>
+</form>
 </body>
 
 </html>
