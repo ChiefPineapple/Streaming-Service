@@ -52,6 +52,37 @@
   <option value ="tags">Tags</option>
 </select>
 </p>
+
+<center><table>
+      <tr>
+         <td>Musician</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>Title</td>
+      </tr>
+      <tr>
+         <td>Song</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>Tags</td>
+      </tr>
+      <tr>
+         <td>Playlist</td>
+      </tr>
+</table>
+</center>
 </form>
 </div>
 </body>
