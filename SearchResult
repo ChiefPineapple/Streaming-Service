@@ -4,6 +4,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Result Page</title>
+
+<meta charset="utf-8" />
+<link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+
 <style>
 
 </style>
@@ -36,6 +40,31 @@
   <option value ="tags">Tags</option>
 </select>
 </p>
+
+<center><table>
+      <tr>
+         <td>Musician</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>Title</td>
+      </tr>
+      <tr>
+         <td>Song</td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td></td>
+         <td>Tags</td>
+      </tr>
+      <tr>
+         <td>Playlist</td>
+      </tr>
+</table>
+</center>
 </form>
 </div>
 </body>
