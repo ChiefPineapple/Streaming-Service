@@ -29,8 +29,16 @@ app.get('/homePage', function(request, response) {
 	response.sendFile(path.join(__dirname + '/homePage.html'));
 });
 
+app.get('/artistHomePage', function(request, response) {
+	response.sendFile(path.join(__dirname + '/artistHomePage.html'));
+});
+
 app.post('/loadsignup', function(request, response) {
 	response.sendFile(path.join(__dirname + '/signup.html'));
+});
+
+app.post('/loadBecomeArtist', function(request, response) {
+	response.sendFile(path.join(__dirname + '/becomeArtist.html'));
 });
 
 app.post('/authLogin', function(request, response) {
@@ -41,6 +49,7 @@ app.post('/authLogin', function(request, response) {
 			if (results.length > 0) {
 				request.session.loggedin = true;
 				request.session.username = username;
+				request.session.userID = results[0].accountID;
 				response.redirect('/homePage');
 			} else {
 				response.send('Incorrect Username and/or Password!');
@@ -71,9 +80,10 @@ app.post('/authSign-up', function(request, response) {
 							response.end();
 						} else {
 							connection.query('INSERT INTO accounts (username, password, passwordResetCode, email) VALUES (?,?,?,?)', [username, password, getRandomInt(1000, 9999), email], function(error, results, fields) {
-								request.session.logedin = true;
+								request.session.loggedin = true;
 								request.session.username = username;
-								response.redirect('/home');
+								request.session.userID = results.insertId;
+								response.redirect('/homePage');
 							});
 						}
 					});
@@ -141,6 +151,18 @@ app.post('/lookup', function(request, response) {
 	}
 	//response.end();
 });
+
+app.post('/becomeArtist', function(request, response) {
+	if (request.session.loggedin) {
+		connection.query('INSERT INTO artist VALUES (?,?,?,?)', [request.session.userID, request.body.stageName, request.body.location, request.body.artistTag], function (error, results, fields) {
+			response.redirect('/artistHomePage');
+		});
+	
+	} else {
+		response.send('Please login to view this page!');
+	}
+});
+	
 
 //default from tutorial
 app.get('/home', function(request, response) { 
