@@ -1,164 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html>	
 	<head>
-		<meta charset="UTF-8">
-		<title>Pineapple Music Streaming</title>
+	<meta charset="utf-8">
+		<title>Login Form</title>
+		<style>
+		.login-form {
+			width: 300px;
+			margin: 0 auto;
+			font-family: Tahoma, Geneva, sans-serif;
+		}
+		.login-form h1 {
+			text-align: center;
+			color: #5a4d2d;
+			font-size: 24px;
+			padding: 20px 0 20px 0;
+		}
+		.login-form input[type="password"],
+		.login-form input[type="text"] {
+			width: 100%;
+			padding: 15px;
+			border: 1px solid #dddddd;
+			margin-bottom: 15px;
+			box-sizing:border-box;
+		}
+		.login-form input[type="submit"] {
+			width: 100%;
+			padding: 15px;
+			background-color: #555b7c;
+			border: 0;
+			box-sizing: border-box;
+			cursor: pointer;
+			font-weight: bold;
+			color: #ffffff;
+		}
+		.signup-button h1 {
+			text-align: left;
+			color: #5a4d2d;
+			font-size: 24px;
+			padding: 20px 0 20px 0;
+		}
+
+		</style>
 	</head>
-	<body bgcolor="FFFF00">
-		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
-		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
-		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
-		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
-		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
-		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
-		<br/>
-		<h1><p align="center"> Pineapple Music Streaming</p></h1>
-		<br />
-		<br/>
+	<body>
 		<div class="login-form">
-				<form action="auth" method="Post">
-					<input type="text" name="username" placeholder="Username" required>
-					<input type="password" name="password" placeholder="Password" required>
-					<input type="submit">
-				</form>
+			<h1>Login Form</h1>
+			<form action="authLogin" method="POST">
+				<input type="text" name="username" placeholder="Username" required>
+				<input type="password" name="password" placeholder="Password" required>
+				<input type="submit">
+			</form>
 		</div>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<div id="forgot-password">
-			<p align="center"><a href="ForgotPassword.html"><b>Forgot Password</b></a></p>
+		<div class="signup-button">
+			<h1>
+			<form action="loadCreateAccount" method="POST">
+				<button>Sign up</button>
+			</form>
+			</h1>
 		</div>
-		<div id="create-account">
-			<p align="center"><a href="CreateAccount.html"><b>Create Account</b></a></p>
-		</div>
-	</body>
-<style>
-	#forgot-password {
-		border: 1px solid black;
-		align="center";
-		background-color:orange;
-		width:15%;
-		position:absolute;
-		right:30%;
-		bottom:40%;
-	}
-	#create-account{
-		border: 1px solid black;
-		align="center";
-		background-color:orange;
-		width:15%;
-		position:absolute;
-		right:50%;
-		bottom:40%;
-	}
-	.login-form input[type="password"]{
-		width: 40%;
-		padding: 15px;
-		border: 1px solid black;
-		margin-bottom: 15px;
-		box-sizing:border-box;
-		right:30%;
-		position: absolute;
-		bottom: 60%;
-	}
-	.login-form input[type="text"]{
-		position: absolute;
-		width: 40%;
-		padding: 15px;
-		border: 1px solid black;
-		margin-bottom: 15px;
-		box-sizing:border-box;
-		right:30%;
-		bottom: 70%;
-	}
-	.login-form input[type="submit"]{
-		width:15%;
-		padding: 15px;
-		background-color: orange;
-		border=1px solid black;
-		cursor: pointer;
-		font-weight: bold;
-		color:black;
-		position:absolute;
-		bottom:50%;
-		right:40%;
-	}
-</style>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	</body>
+</html>
