@@ -4,6 +4,9 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
 var nodemailer = require('nodemailer');
+var multer = require('multer');
+var upload = multer();
+
 
 var connection = mysql.createConnection({
 	host     : 'localhost',
@@ -21,6 +24,9 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
+
+app.use(upload.array()); 
+app.use(express.static('public'));
 
 var transporter = nodemailer.createTransport({
 	service: 'gmail',
@@ -121,12 +127,12 @@ app.post('/forgotPassword', function(request,response) {
 					console.log(error);
 				} else {
 					console.log('Email sent succesfully: ' + info.response);
-					response.end();
+					response.send("email has been sent");
 				}
 			});
 		
 		}else{
-			response.send("There is no account associated with this email");
+			response.send("There is no account associated with this email " + request.body.email);
 		}
 	});
 }); 
