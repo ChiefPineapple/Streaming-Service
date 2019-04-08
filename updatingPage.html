@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Updating Page</title>
+	</head>
+	<body bgcolor="FFFF00">
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+		<div id="content">
+		<div id="Home">
+			<p align="center"><a href="homePage"><b>Home</b></a></p>
+		</div>
+		<h1><p align="center">My Profile</p></h1>
+		<div id="current">
+			<p><b>Current</b></p>
+		</div>
+		<br/>
+		<br/>
+		<form = "updateAccount" method = "POST">
+		<p align="center"><b>Username </b><input type="text" name="currentusername" placeholder="(required)" required></p>
+		<p align="center"><b>Password </b><input type="password" name="currentpassword" placeholder="(required)" required></p>
+	<!--	<p align="center"><b>Email </b><input type="text" name="email" placeholder="Email"></p>
+		//<p align="center"><b>Tags </b><input type="tags" /></p>
+	-->	
+		<div id="update">
+			<p align=“center”><b>Update</b><br/>if you dont want to change something, leave it blank</p>
+		</div>
+		<br/>
+		<br/>
+		<p align="center"><b>Username </b><input type="text" name="newusername"></p>
+		<p align="center"><b>Email </b><input type="text" name = "newemail"></p>
+		<p align="center"><b>Password </b><input type="password" name = "newpassword"></p>
+		<p align="center"><b>Retype Password </b><input type="password" name = "newpassword2"></p>
+		<p align="center"><b>Tags </b><input type="text" name="text"></p>
+		<div id="submit">
+			<p align="center"><button><b>Submit</b></button></p>
+		</div>
+	</form>
+	</body>
+	<style>
+		#current {
+			position:absolute;
+			right:48%;
+		}
+		#update {
+			position:absolute;
+			right:48%;
+		}
+		#Home {
+			position:absolute;
+  			display: inline-block;
+			width:8%;
+ 			border:1px solid;
+			background-color: orange;
+			left: 3%;
+			top: 3%;
+		}
+		#submit {
+			border: 1px solid black;
+			align="center";
+			background-color: orange;
+			width:8%;
+			position:absolute;
+			right:46%;
+		}
+	</style>
+</html>
