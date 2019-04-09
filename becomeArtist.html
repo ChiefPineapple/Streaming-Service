@@ -1,38 +1,79 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-<meta charset="UTF-8">
-<title>Become an Artist</title>
-
-<body>
-<img src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<p style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
-<p style="background-color:orange;"><a href="ArtistProfilePage.html"><b>My Profile</b></a></p>
-<p style="background-color:orange;"><a href="FirstPage.html"><b>Sign Out</b></a></p>
-</body>
-<h2>Become an Artist Today!</h2>
-
-<form action="becomeArtist" method="POST"> 
-	<input type="text" name="stageName" placeholder="Stage Name" required>
-	<br/>
-	<select name="location">
-		<option value="ATL">ATL</option>
-		<option value="NYC">NYC</option>
-		<option value="LA">LA</option>
-	</select>
-	<select name="artistTag">
-		<option value="rock">Rock</option>
-		<option value="jazz">Jazz</option>
-		<option value="rap">Rap</option>
-		<option value="electronic">Electronic</option>
-	</select>
-	<input type="submit" placeholder="Register">
-</form>
+	<head>
+		<meta charset="UTF-8">
+		<title>Become an Artist</title>
+	</head>
+	<body bgcolor="FFFF00">
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+		<h1 align="center">Become an Artist Today!</h1>
+		<form action="loadProfile" method = "POST">
+			<button id="back">Back</button>
+		</form>
+		<div id="things">
+			<form action="becomeArtist" method="POST"> 
+				<input type="text" name="stageName" placeholder="Stage Name" required>
+				<br/>
+				<select name="location">
+					<option value="ATL">ATL</option>
+					<option value="NYC">NYC</option>
+					<option value="LA">LA</option>
+				</select>
+				<select name="artistTag">
+					<option value="rock">Rock</option>
+					<option value="jazz">Jazz</option>
+					<option value="rap">Rap</option>
+					<option value="electronic">Electronic</option>
+				</select>
+				<input type="submit" placeholder="Register">
+			</form>
+		</div>
+	</body>
+	<style>
+		#back{
+			position:absolute;
+			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
+			right:45%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
+			left:3%;
+		}
+		#things{
+			position:absolute;
+			left:40%;
+			top:30%;
+			width:80%;
+		}
+		input[type="submit"] {
+			position:absolute;
+			width:20%;
+			height:70%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:150%;
+			right:80%;
+			font-size: 15px;
+			font-weight:bold;
+		}
+		input[type="text"]{
+			width:30%;
+			height:8%;
+		}
+		select{
+			font-size: 15px;
+			font-weight:bold;
+			height: 50%;
+		}
+	</style>
 </html>

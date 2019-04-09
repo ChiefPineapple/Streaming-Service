@@ -7,11 +7,10 @@ var nodemailer = require('nodemailer');
 var multer = require('multer');
 var upload = multer();
 
-
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
-	password : '',
+	password : 'Jarolddontdothat1',
 	database : 'pineapplemusic'
 });
 
@@ -22,6 +21,7 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
+
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
@@ -68,16 +68,12 @@ app.get('/uploadSong', function(request, response) {
 	response.sendFile(path.join(__dirname + '/UploadingPage.html'));
 });
 
-app.get('/messages', function(request, response) {
-	response.sendFile(path.join(__dirname + '/Messages.html'));
-});
-
 app.get('/ForgotPassword', function(request, response) {
 	response.sendFile(path.join(__dirname + '/forgotPassword.html'));
 });
 
 app.post('/loadCreateAccount', function(request, response) {
-	response.sendFile(path.join(__dirname + '/CreateAccount.html'));
+	response.sendFile(path.join(__dirname + '/createAccount.html'));
 });
 
 app.post('/loadBecomeArtist', function(request, response) {
@@ -88,16 +84,16 @@ app.post('/authLogin', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
 	if (username && password) {
-		connection.query('SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+		connection.query('SELECT * FROM Accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
 			if (results.length > 0) {
 				request.session.loggedin = true;
 				request.session.username = username;
 				request.session.userID = results[0].accountID;
-				connection.query('SELECT * FROM artist WHERE acntID = ?', [request.session.userID], function(error, results, fields) {
+				connection.query('SELECT * FROM Artist WHERE acntID = ?', [request.session.userID], function(error, results, fields) {
 					if (results.length > 0) {
-						request.session.isArtist = true;
+						request.session.isArtist=true;
 					}else{
-						request.session.isArtist = false;
+						request.session.isArtist=false;
 					}
 					response.redirect('/homePage');
 				});
@@ -113,7 +109,7 @@ app.post('/authLogin', function(request, response) {
 });
 
 app.post('/forgotPassword', function(request,response) {
-	connection.query('SELECT passwordResetCode FROM accounts WHERE email = ?', [request.body.email], function(error, results, fields) {
+	connection.query('SELECT passwordResetCode FROM Accounts WHERE email = ?', [request.body.email], function(error, results, fields) {
 		if (results.length > 0) {
 			request.session.email=request.body.email;
 			var mailOptions = {
@@ -139,9 +135,9 @@ app.post('/forgotPassword', function(request,response) {
 }); 
 
 app.post('/changePassword', function(request, response) {
-	connection.query('SELECT * FROM accounts WHERE email = ? && passwordResetCode = ?', [request.session.email, request.body.prCode], function(error, results, fields) {
+	connection.query('SELECT * FROM Accounts WHERE email = ? && passwordResetCode = ?', [request.session.email, request.body.prCode], function(error, results, fields) {
 		if (results.length>0) {
-			connection.query('UPDATE accounts SET password = ?, passwordResetCode = ? WHERE email = ?', [request.body.password, getRandomInt(1000,9999), request.session.email], function(error, results, fields) {
+			connection.query('UPDATE Accounts SET password = ?, passwordResetCode = ? WHERE email = ?', [request.body.password, getRandomInt(1000,9999), request.session.email], function(error, results, fields) {
 				response.send("password has been reset, please click back to login");
 			});
 		} else {
@@ -149,6 +145,8 @@ app.post('/changePassword', function(request, response) {
 		}
 	});
 });
+
+// the querys in this post are nested because the output of one query 
 app.post('/authCreateAccount', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
@@ -156,17 +154,17 @@ app.post('/authCreateAccount', function(request, response) {
 	var email = request.body.email;
 	if (username && password && verifyPassword && email) {
 		if (password==verifyPassword) {			//these queries are nested because the output of the query determines the input of the next
-			connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, results, fields) {
+			connection.query('SELECT * FROM Accounts WHERE username = ?', [username], function(error, results, fields) {
 				if (results.length > 0) {
 					response.send('Username is taken');
 					response.end();
 				} else {
-					connection.query('SELECT * FROM accounts WHERE email = ?', [email], function(error, results, fields) {
+					connection.query('SELECT * FROM Accounts WHERE email = ?', [email], function(error, results, fields) {
 						if (results.length > 0) {
 							response.send('There is already an account associated with this email');
 							response.end();
 						} else {
-							connection.query('INSERT INTO accounts (username, password, passwordResetCode, email) VALUES (?,?,?,?)', [username, password, getRandomInt(1000, 9999), email], function(error, results, fields) {
+							connection.query('INSERT INTO Accounts (username, password, passwordResetCode, email) VALUES (?,?,?,?)', [username, password, getRandomInt(1000, 9999), email], function(error, results, fields) {
 								request.session.loggedin = true;
 								request.session.username = username;
 								request.session.userID = results.insertId;
@@ -194,38 +192,38 @@ app.post('/search', function(request, response) {
 		var value = request.body.value;
 		if (searchObject=="artist"){
 			if(attribute=="title"){
-				connection.query('SELECT * FROM artist WHERE stageName = ?', [value], function (error, results, fields) {
+				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
 					response.send(results);
 					response.end;
 				});
 			} else {
-				connection.query('SELECT * FROM artist WHERE artistTag = ?', [value], function (error, results, fields) {
+				connection.query('SELECT * FROM Artist WHERE artistTag = ?', [value], function (error, results, fields) {
 					response.send(results);
 					response.end;
 				});
 			}
 		} else if (searchObject=="song"){
 			if(attribute=="title"){
-				connection.query('SELECT * FROM songs WHERE filename = ?', [value], function (error, results, fields) {
+				connection.query('SELECT * FROM Songs WHERE filename = ?', [value], function (error, results, fields) {
 					if(results.length>0){
 						response.send("found it");
 					}
 					response.end;
 				});
 			} else {
-				connection.query('SELECT * FROM songs WHERE songTag = ?', [value], function (error, results, fields) {
+				connection.query('SELECT * FROM Songs WHERE songTag = ?', [value], function (error, results, fields) {
 					response.send(results);
 					response.end;
 				});
 			}
 		} else {
 			if(attribute=="title"){
-				connection.query('SELECT * FROM playlist WHERE name = ?', [value], function (error, results, fields) {
+				connection.query('SELECT * FROM Playlist WHERE name = ?', [value], function (error, results, fields) {
 					response.send(results);
 					response.end;
 				});
 			} else {
-				connection.query('SELECT * FROM playlist WHERE playlistTag = ?', [value], function (error, results, fields) {
+				connection.query('SELECT * FROM Playlist WHERE playlistTag = ?', [value], function (error, results, fields) {
 					response.send(results);
 					response.end;
 				});
@@ -248,9 +246,8 @@ app.post('/loadProfile', function(request, response) {
 
 app.post('/becomeArtist', function(request, response) {
 	if (request.session.loggedin) {
-		connection.query('INSERT INTO artist VALUES (?,?,?,?)', [request.session.userID, request.body.stageName, request.body.location, request.body.artistTag], function (error, results, fields) {
-			request.session.isArtist=true;
-			response.redirect('/artistProfilePage');
+		connection.query('INSERT INTO Artist VALUES (?,?,?,?)', [request.session.userID, request.body.stageName, request.body.location, request.body.artistTag], function (error, results, fields) {
+			response.redirect('/artistHomePage');
 		});
 	
 	} else {

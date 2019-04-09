@@ -1,4 +1,3 @@
-    
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,25 +12,20 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
 		<h1><p align="center">Home</p></h1>
-		<div id="my-profile">
-			<form action="loadProfile" method = "POST">
-				<p align="center"><button>My Profile</button></p>
-			</form>
-				
-		</div>
-		<div id="sign-out">
-			<form action="signOut" method = "POST">
-			<p align="center"><button> Sign Out </button></p>
-			</form>
-		</div>
+		<form action="loadProfile" method = "POST">
+			<button id="my-profile">My Profile</button>
+		</form>
+		<form action="signOut" method="POST">
+			<button id="sign-out">Sign Out</button>
+		</form>
 		<div id="things" class ="wrap">
 			<form action="search" method="POST">
-				<p align="center"><span style = "font-size: 25px;">Find a </span>
+				<p align="center"><span style = "font-size: 30px;">Find a </span>
 				<select name="searchObject">
 					<option value ="artist">Musician</option>
 					<option value ="songs">Song</option>
 					<option value ="playlist">Playlist</option>
-				</select><span style = "font-size: 25px;">with </span>
+				</select><span style = "font-size: 30px;">with </span>
 				<select name="attribute">
 					<option value ="title">Title</option>
 					<option value ="tags">Tags</option>
@@ -45,12 +39,16 @@
 	<style>
 		#things{
 			position:absolute;
-			left:27%;
+			left:10%;
 			top:30%;
+			width:80%;
 		}
 		#my-profile {
 			position:absolute;
 			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
 			right:45%;
 			border: 1px solid black;
 			align="center";
@@ -61,22 +59,47 @@
 		#sign-out {
 			position:absolute;
 			width:10%;
-			right:45%;
+			height:8%;
+			right:60%;
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
 			top:3%;
 			left:3%;
+			font-size:15px;
+			font-weight:bold;
 		}
 		input[type="submit"] {
 			position:absolute;
-			width:30%;
-			right:45%;
+			width:20%;
+			height:70%;
+			right:40%;
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
 			top:150%;
-			right:40%;
+			font-size: 15px;
+			font-weight:bold;
+		}
+		#becomeArtist{
+			position:absolute;
+			width:16%;
+			height:7%;
+			right:42%;
+			bottom:40%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			font-size: 15px;
+			font-weight:bold;
+		}
+		input[type="text"]{
+			width:20%;
+		}
+		select{
+			font-size: 15px;
+			font-weight:bold;
+			height: 50%;
 		}
 	</style>
 </html>

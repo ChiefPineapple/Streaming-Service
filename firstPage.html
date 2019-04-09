@@ -15,32 +15,32 @@
 		<h1><p align="center"> Pineapple Music Streaming</p></h1>
 		<br />
 		<br/>
-		
-		<div id="content">
-
-		<div id="submit">
-			<form action="authLogin" method="POST" align="center">
+		<div class="submit">
+			<form action="authLogin" method="POST">
 				<input type="text" name="username" placeholder="Username" required>
 				<input type="password" name="password" placeholder="Password" required>
-				<button>Login</button>
+				<button id="login">Login</button>
 			</form>
 		</div>
 		<br/>
 		<br/>
 		<br/>
 		<br/>
-		<div id="forgot-password">
-			<form action="ForgotPassword" method="GET">
-				<button>Forgot Password</button>
-			</form>
-		</div>
-		<div id="create-account">
-			<form action="loadCreateAccount" method="POST">
-				<button>Sign up</button>
-			</form>
-		</div>
+		<form action="ForgotPassword" method="GET">
+			<button id="forgot-password">Forgot Password</button>
+		</form>
+		<form action="loadCreateAccount" method="POST">
+			<button id="create-account">Sign up</button>
+		</form>
 	</body>
 <style>
+	button {
+		background-color: orange;
+		border: solid black 1px;
+		height:6%;
+		width:15%;
+		font-weight:bold;
+	}
 	#forgot-password {
 		border: 1px solid black;
 		align="center";
@@ -48,6 +48,7 @@
 		width:15%;
 		position:absolute;
 		right:30%;
+		top:42%;
 	}
 	#create-account{
 		border: 1px solid black;
@@ -56,13 +57,28 @@
 		width:15%;
 		position:absolute;
 		right:50%;
+		top: 42%;
 	}
-	#submit {
-		border: 1px solid black;
-		align="center";
-		background-color:orange;
-		width:10%;
+	.submit input[type="text"]{
 		position:absolute;
+		align="center";
+		width:20%;
+		height:5%;
+		right:40%;
+		font-size:20px;
+	}
+	.submit input[type="password"]{
+		position:absolute;
+		align="center";
+		width:20%;
+		height:5%;
+		right:40%;
+		top:26%;
+		font-size:20px;
+	}
+	#login{
+		position:absolute;
+		top:34%;
 		right:43%;
 	}
 </style>
