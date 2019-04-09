@@ -68,10 +68,6 @@ app.get('/uploadSong', function(request, response) {
 	response.sendFile(path.join(__dirname + '/UploadingPage.html'));
 });
 
-app.get('/messages', function(request, response) {
-	response.sendFile(path.join(__dirname + '/Messages.html'));
-});
-
 app.get('/ForgotPassword', function(request, response) {
 	response.sendFile(path.join(__dirname + '/forgotPassword.html'));
 });
@@ -185,6 +181,15 @@ app.post('/authCreateAccount', function(request, response) {
 		response.send('Please fill out required fields');
 		response.end();
 	}
+});
+
+app.post('/signOut', function(request, response) {
+	
+	request.session.regenerate(function(err) {
+		console.log(err);  
+	});
+	
+	response.redirect('/first');
 });
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {
