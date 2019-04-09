@@ -115,6 +115,7 @@ app.post('/authLogin', function(request, response) {
 app.post('/forgotPassword', function(request,response) {
 	connection.query('SELECT passwordResetCode FROM accounts WHERE email = ?', [request.body.email], function(error, results, fields) {
 		if (results.length > 0) {
+			request.session.email=request.body.email;
 			var mailOptions = {
 				from: 'pineapplemusicdonotreply@gmail.com',
 				to: request.body.email,
@@ -137,6 +138,17 @@ app.post('/forgotPassword', function(request,response) {
 	});
 }); 
 
+app.post('/changePassword', function(request, response) {
+	connection.query('SELECT * FROM accounts WHERE email = ? && passwordResetCode = ?', [request.session.email, request.body.prCode], function(error, results, fields) {
+		if (results.length>0) {
+			connection.query('UPDATE accounts SET password = ?, passwordResetCode = ? WHERE email = ?', [request.body.password, getRandomInt(1000,9999), request.session.email], function(error, results, fields) {
+				response.send("password has been reset, please click back to login");
+			});
+		} else {
+			response.send("password reset code is invalid")
+		}
+	});
+});
 app.post('/authCreateAccount', function(request, response) {
 	var username = request.body.username;
 	var password = request.body.password;
