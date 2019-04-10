@@ -1,12 +1,13 @@
-var mysql = require('mysql');
-var express = require('express');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var path = require('path');
-var nodemailer = require('nodemailer');
-var multer = require('multer');
+var mysql = require('mysql');//for creating the mysql connection to send querys
+var express = require('express');//not sure how this is different from express-session but w3schools is gospel
+var session = require('express-session');//for session things to happen, like session.variables
+var bodyParser = require('body-parser'); //for parsing the forms 
+var path = require('path');//i think this is so the calls to other pages work
+var nodemailer = require('nodemailer');//for sending an email in the forgotPassword post
+var multer = require('multer');//not sure what this does but its needed to make the forms that are in an httpRequest work
+var fs = require('fs');//to access file system
+var formidable = require('formidable');//for file uploads so we can upload .mp3
 var upload = multer();
-
 
 var connection = mysql.createConnection({
 	host     : 'localhost',
@@ -95,7 +96,7 @@ app.post('/authLogin', function(request, response) {
 					}else{
 						request.session.isArtist = false;
 					}
-					response.redirect('/homePage');
+					response.send('success');
 				});
 			} else {
 				response.send('Incorrect Username and/or Password!');
@@ -155,12 +156,12 @@ app.post('/authCreateAccount', function(request, response) {
 			connection.query('SELECT * FROM accounts WHERE username = ?', [username], function(error, results, fields) {
 				if (results.length > 0) {
 					response.send('Username is taken');
-					response.end();
+					//response.end();
 				} else {
 					connection.query('SELECT * FROM accounts WHERE email = ?', [email], function(error, results, fields) {
 						if (results.length > 0) {
 							response.send('There is already an account associated with this email');
-							response.end();
+							//response.end();
 						} else {
 							connection.query('INSERT INTO accounts (username, password, passwordResetCode, email) VALUES (?,?,?,?)', [username, password, getRandomInt(1000, 9999), email], function(error, results, fields) {
 								request.session.loggedin = true;
@@ -175,11 +176,11 @@ app.post('/authCreateAccount', function(request, response) {
 				
 		} else {
 			response.send('Passwords do not match');
-			response.end();
+			//response.end();
 		}
 	} else {
 		response.send('Please fill out required fields');
-		response.end();
+		//response.end();
 	}
 });
 
@@ -191,6 +192,28 @@ app.post('/signOut', function(request, response) {
 	
 	response.redirect('/first');
 });
+
+app.post('/upload', function(request, response) {
+	
+	var formp  = new formidable.IncomingForm();
+	formp.parse(request, function(err, fields, files) {
+		var oldpath = files.filetoupload.path;
+		var newpath = 'C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/' + files.songFile.name;
+		fs.rename(oldpath, newpath, function (err) {
+			if (err) throw err;
+			response.write('File uploaded and moved!');
+			response.end();
+        });
+	});
+	formp.on('fileBegin', function (name, file){
+        file.path = "C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/" + file.name;
+    });
+
+    formp.on('file', function (name, file){
+        console.log('Uploaded ' + file.name);
+    });
+	response.send(formp);
+});
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {
 	if (request.session.loggedin) {
@@ -201,7 +224,7 @@ app.post('/search', function(request, response) {
 			if(attribute=="title"){
 				connection.query('SELECT * FROM artist WHERE stageName = ?', [value], function (error, results, fields) {
 					response.send(results);
-					response.end;
+					//response.end;
 				});
 			} else {
 				connection.query('SELECT * FROM artist WHERE artistTag = ?', [value], function (error, results, fields) {

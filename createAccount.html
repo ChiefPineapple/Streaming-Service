@@ -11,7 +11,51 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
-	
+	<script>
+			window.addEventListener("load", function () {
+  				function sendData() {
+    					var XHR = new XMLHttpRequest();
+
+    					// Bind the FormData object and the form element
+    					var FD = new FormData(form);
+					
+
+    					// Define what happens on successful data submission
+    					XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+					
+							if (XHR.responseURL=='http://localhost:3000/authCreateAccount') {
+      								document.getElementById("response").innerHTML = this.responseText;
+								
+							}
+							
+						}
+    					});
+
+    					// Define what happens in case of error
+    					XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+
+    					// Set up our request
+    					XHR.open("POST", "authCreateAccount");
+
+    					// The data sent is what the user provided in the form
+    					XHR.send(FD);
+				
+  				}
+
+  				// Access the form element...
+  				var form = document.getElementById("authCreateAccount");
+
+  				// ...and take over its submit event.
+  				form.addEventListener("submit", function (event) {
+    					event.preventDefault();
+
+    					sendData();
+  				});
+			});
+	</script>
 	<div id="back">
 		<p align="center"><a href="first"><b>Back</b></a></p>
 	</div>
@@ -19,13 +63,14 @@
 	<h2><p align="center">Create Account</p></h2>
 	<br/>
 	<div id="content">
-	<form action="authCreateAccount" method="POST" align="center">
+	<form id="authCreateAccount" align="center">
 		<input type="text" name="username" placeholder="Username" required>
 		<input type="password" name="password" placeholder="Password" required>
 		<input type="password" name="verifyPassword" placeholder="Verify Password" required>
 		<input type="text" name="email" placeholder="Email" required>
 		<input type="submit">
 	</form>
+	<p id="response" align="center"></p>
 	</div>
 </body>
 <style>
