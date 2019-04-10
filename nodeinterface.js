@@ -24,7 +24,10 @@ app.use(session({
 	saveUninitialized: true
 }));
 app.use(bodyParser.urlencoded({extended : true}));
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+//this is the thing im referring to in the upload post. 
+//commenting it out may have broken something that i havent stumbled upon yet
+//i thought it was needed to read the forms
 
 app.use(upload.array()); 
 app.use(express.static('public'));
@@ -167,7 +170,7 @@ app.post('/authCreateAccount', function(request, response) {
 								request.session.loggedin = true;
 								request.session.username = username;
 								request.session.userID = results.insertId;
-								response.redirect('/homePage');
+								response.send("success");
 							});
 						}
 					});
@@ -193,26 +196,34 @@ app.post('/signOut', function(request, response) {
 	response.redirect('/first');
 });
 
-app.post('/upload', function(request, response) {
+app.post('/upload', upload.single('songFile'), function(request, response) {
 	
-	var formp  = new formidable.IncomingForm();
-	formp.parse(request, function(err, fields, files) {
-		var oldpath = files.filetoupload.path;
+	var form  = new formidable.IncomingForm();
+	//the program was skipping right over .parse until i commented line 26 .bodyparser.
+	//the file is now coming through as [] instead of [null,null], idk the significance of that lol, jah help us!
+	form.parse(request); //, function(err, fields, files) {
+	/*	var oldpath = files.songFile.path;
 		var newpath = 'C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/' + files.songFile.name;
+		console.log(err);
+		console.log("fields");
+		console.log(fields);
 		fs.rename(oldpath, newpath, function (err) {
 			if (err) throw err;
 			response.write('File uploaded and moved!');
 			response.end();
         });
 	});
-	formp.on('fileBegin', function (name, file){
+	*/
+	form.on('fileBegin', function (name, file){
         file.path = "C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/" + file.name;
+		//obviously change this to match your file path. 
+		//i changed around properties of the uploads file to allow access to everyone but i think the problem lies somewhere with the file not being  sent with the form.
     });
 
-    formp.on('file', function (name, file){
+    form.on('file', function (name, file){
         console.log('Uploaded ' + file.name);
     });
-	response.send(formp);
+	response.send(form);
 });
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {

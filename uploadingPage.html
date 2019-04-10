@@ -11,13 +11,63 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+	<script>
+			window.addEventListener("load", function () {
+  				function sendData() {
+    					var XHR = new XMLHttpRequest();
+
+    					// Bind the FormData object and the form element
+    					var FD = new FormData(form);
+					
+
+    					// Define what happens on successful data submission
+    					XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+					
+							if (XHR.responseURL=='http://localhost:3000/upload') {
+								if (this.responseText == "success"){
+									window.location='homePage';
+								}else{
+      								document.getElementById("response").innerHTML = this.responseText;
+								}
+							}
+							
+							}
+    					});
+
+    					// Define what happens in case of error
+    					XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+
+    					// Set up our request
+    					XHR.open("POST", "upload");
+
+    					// The data sent is what the user provided in the form
+    					XHR.send(FD);
+				
+  				}
+
+  				// Access the form element...
+  				var form = document.getElementById("upload");
+
+  				// ...and take over its submit event.
+  				form.addEventListener("submit", function (event) {
+    					event.preventDefault();
+
+    					sendData();
+  				});
+			});
+	</script>		
 		<div id="content">
 		<div id="Home">
 			<p align="center"><a href="HomePage.html"><b>Home</b></a></p>
 		</div>
 		<h1><p align="center">Upload a Song</p></h1>
 		<br />
-		<form action = "upload" method = "POST">
+		<form id="upload"> <!--doing id="upload" sends the form via the crazy javascript event listener up top. 
+		replacing that with <form action="upload" method="POST"> skips the javascript and goes straight to node. 
+		im not sure if one or the other is easier for uploading, i keep trying both with each new attempt. -->
 		
 		<p align="center"><b>File </b><input type="file" name="songFile" accept="audio/*" required></p>
 		
