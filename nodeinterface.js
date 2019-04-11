@@ -1,20 +1,20 @@
 var mysql = require('mysql');
-var express = require('express');
+var express = require('express'),
+	app = express(),
+	upload = require("express-fileupload");
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var path = require('path');
 var nodemailer = require('nodemailer');
 var multer = require('multer');
-var upload = multer();
-
+var fs = require('fs');//to access file system
+app.use(upload()) 
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : 'Jarolddontdothat1',
 	database : 'pineapplemusic'
 });
-
-var app = express();
 
 app.use(session({
 	secret: 'secret',
@@ -25,7 +25,6 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-app.use(upload.array()); 
 app.use(express.static('public'));
 
 var transporter = nodemailer.createTransport({
@@ -78,6 +77,10 @@ app.post('/loadCreateAccount', function(request, response) {
 
 app.post('/loadBecomeArtist', function(request, response) {
 	response.sendFile(path.join(__dirname + '/becomeArtist.html'));
+});
+
+app.get('/UploadPage', function(request,response) {
+	response.sendFile(path.join(__dirname + '/uploadPage.html'));
 });
 
 app.post('/authLogin', function(request, response) {
@@ -184,6 +187,18 @@ app.post('/authCreateAccount', function(request, response) {
 		response.end();
 	}
 });
+
+app.post('/signOut', function(request, response) {
+	
+	request.session.regenerate(function(err) {
+		console.log(err);  
+	});
+	
+	response.redirect('/first');
+});
+
+
+
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {
 	if (request.session.loggedin) {
@@ -235,6 +250,21 @@ app.post('/search', function(request, response) {
 		response.send('Please login to view this page!');
 	}
 	//response.end();
+});
+
+app.post('/upload', function(request, response) {
+	if(request.files){
+		var file = request.files.filename,
+			filename = file.name;
+		file.mv("/home/pi/nodelogin/uploads/"+filename,function(err){
+			if(err){
+				console.log(err)
+				response.send("error occured")
+			}else{
+				response.send("Done!")
+			}
+		})
+	}
 });
 
 app.post('/loadProfile', function(request, response) {
