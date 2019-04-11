@@ -21,6 +21,7 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true
 }));
+app.set('view engine','ejs');
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
@@ -208,9 +209,39 @@ app.post('/search', function(request, response) {
 		if (searchObject=="artist"){
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
-					response.send(results);
+				if(results.length>0){
+					var table = '';
+					var rows= 5;
+					var cols=10;
+					for(var r = 0; r < rows; r++){
+						table += '<tr>';
+						for(var c = 0; c <= cols;c++){
+							table += '<td>' + c + '</td>';
+						}
+						table += '<tr>';
+					}
+					response.write('<table border=1>' + table + '</table>');
+
+					response.write("<table>");
+					response.write("<tr>");
+					for(var column in results[0]){
+						response.write("<td><label>" + column + "</label></td>");
+					}
+					response.write("</tr>");
+					for(var row in results[row]){
+						response.write("<tr>");
+						for(var column in results[row]){
+							response.write("<td><label>" + results[row][column] + "</label></td>");
+						}
+						response.write("</tr>");
+					}
+					response.write("</table>");
 					response.end;
-				});
+				}
+				else{
+					response.send('not found');
+					response.end;
+				}});
 			} else {
 				connection.query('SELECT * FROM Artist WHERE artistTag = ?', [value], function (error, results, fields) {
 					response.send(results);
@@ -219,9 +250,10 @@ app.post('/search', function(request, response) {
 			}
 		} else if (searchObject=="song"){
 			if(attribute=="title"){
-				connection.query('SELECT * FROM Songs WHERE filename = ?', [value], function (error, results, fields) {
+				var sql = "SELECT * FROM Songs WHERE filename = ?";
+				connection.query(sql,value, function (error, results, fields) {
 					if(results.length>0){
-						response.send("found it");
+						response.send(results);
 					}
 					response.end;
 				});
@@ -250,6 +282,10 @@ app.post('/search', function(request, response) {
 		response.send('Please login to view this page!');
 	}
 	//response.end();
+});
+
+app.get('/results', function(request,response) {
+	response.sendFile(path.join(__dirname + '/results.html'));
 });
 
 app.post('/upload', function(request, response) {
