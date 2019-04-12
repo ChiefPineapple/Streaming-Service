@@ -208,13 +208,16 @@ app.post('/search', function(request, response) {
 				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
 				if(results.length>0){
 					var table = '';
-					var rows= 5;
-					var cols=10;
+					var rows= results.length;
+					var cols=4;
 					for(var r = 0; r < rows; r++){
 						table += '<tr>';
-						for(var c = 0; c <= cols;c++){
-							table += '<td>' + c + '</td>';
-						}
+						
+						table += '<td>' + results[r].acntID + '</td>';
+						table += '<td>' + results[r].stageName + '</td>';
+						table += '<td>' + results[r].location + '</td>';
+						table += '<td>' + results[r].artistTag + '</td>';
+						
 						table += '<tr>';
 					}
 					response.write('<table border=1>' + table + '</table>');
@@ -289,6 +292,13 @@ app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = file.name;
+		connection.query('INSERT INTO songs (filename, songTag) VALUES (?,?)', [filename, request.body.tag], function (error, results, fields) {
+			console.log(error);
+			var songid = results.insertId;
+			connection.query('INSERT INTO songowner VALUES (?,?)', [request.session.userID, songid], function (error, results, fields) {
+				console.log(error);
+			});
+		});
 		file.mv("C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/"+filename,function(err){
 			if(err){
 				console.log(err)
