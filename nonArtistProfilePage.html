@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Profile Page</title>
+	</head>
+	<body bgcolor="FFFF00">
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+			<form action="homePage" method="GET">
+				<button id="Home">Home</button>
+			</form>
+			<form action="updatingPage" method="GET">
+				<button id="Update-Account">Update Account</button>
+			</form>
+			<h1><p align="center">My Profile</p></h1>
+			<br />
+			<br />
+			<div id="My-Playlists">
+				<p align="center"><b>My Playlists</b></p>
+			</div>
+			<div id="Playlist-Lister">
+				<nav>
+					<ul id="playlist">
+						<audio src="" controls id="audioPlayer">
+						</audio>
+						<center><li class+"current-song">PUMP UP NOW</li></center>
+						<center><li>chillax bruh</li></center>
+					</ul>
+				</nav>
+			</div>
+			<script src="https//code.jquery.com/jquery-2.2.0.js">
+			<script src="audioPlayer.js"></script>
+			</script>
+			<script>
+				audioPlayer();
+				function audioPlayer(){
+					var currentSong = 0;
+					$("audioPlayer")[0].src = $("#playlist li a")[0];
+					$("audioPlayer")[0].play();
+					$("#playlist li a ").click(function(e){
+						e.preventDefault();
+						$("audioPlayer")[0].src = this;
+						$("audioPlayer")[0].play();
+						$("playlist li").removeClass("current-song");
+							currentSong = $(this).parent().addClass("current-song");
+					]);
+					$("#audioPlayer")[0].addEventListener("ended", function())
+						currentSong++;
+						if(currentSong == $("#playlist li a").length)
+							currentSong = 0;
+						$("#playlist li").removeClass("current-song");
+						$("#playlist li:eq("+currentSong+")").addClass("current-song");
+						$("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
+						$("#audioPlayer")[0].play();
+					]);
+    				}
+			</script>	
+			<form action="loadBecomeArtist" method="POST">
+				<button id="BecomeArtist">Become an Artist to Upload Songs!</button>
+			</form>
+		</form>
+		<form action="createPlaylist" method="GET">
+			<button id="Create-Playlist">Create Playlist</button>
+		</form>
+	</body>
+	<style>
+		#Home {
+			position:absolute;
+			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
+			right:45%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
+			left:3%;
+		}
+		#Update-Account {
+			position:absolute;
+			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
+			right:45%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
+			right:3%;
+		}
+		#My-Playlists {
+			background-color: orange;
+			display: inline-block;
+			border: 1px solid black;
+			width: 10%;
+			align="center";
+			margin: auto;
+			position: absolute;
+			left: 31%;
+			top:15%;
+		}
+		#BecomeArtist {
+			background-color: orange;
+			position: absolute;
+			border: 1px solid black;
+			width: 10%;
+			height: 8%;
+			margin: auto;
+			right: 31%;
+			top: 40%;
+			font-size:15px;
+			font-weight:bold;
+		}
+		#Playlist-Lister{
+			display: inline-block;
+			border: 1px solid black;
+			height: 50%;
+			width: 28%;
+			position: absolute;
+			left: 20%;
+			top: 25%;
+		}
+		#Create-Playlist{
+			background-color: orange;
+			border: 1px solid black;
+			width: 15%;
+			height: 8%;
+			align="center";
+			position: absolute;
+			left:25%;
+			bottom:10%;
+			font-size:15px;
+			font-weight:bold;
+		}
+		#playlist li a{
+			color: black;
+			text-decoration: none;
+		}
+		#playlist .current-song a{
+			color: blue;
+		}
+		nav ul{min-height:100px;max-height: 100%;height:280px; width: 80%;align="center";}
+		nav ul{overflow:hidden; overflow-y:scroll;align="center";}
+	</style>
+</html>

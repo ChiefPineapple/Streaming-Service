@@ -1,53 +1,105 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-<meta charset="UTF-8">
-<title>Home Page</title>
-
-<body>
-<img src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<img width="25" height="50" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" />
-<p style="background-color:orange;"><a href="HomePage.html"><b>Back</b></a></p>
-<p style="background-color:orange;"><a href="ArtistProfilePage.html"><b>My Profile</b></a></p>
-<p style="background-color:orange;"><a href="FirstPage.html"><b>Sign Out</b></a></p>
-</body>
-<h2>Home</h2>
-<br />
-<p><b>Find a </b></p>
-<p><b>with</b></p>
-<input type="text" />
-<p><b>Musician        Title</b></p>
-<p><b>Song            Tags</b></p>
-<p><b>Playlist</b></p>
-
-<div class="lookup">
-	<form action="lookup" method="POST">
-		Find a
-		<select name="searchObject">
-			<option value="stageName">Artist</option>
-			<option value="filename">Song</option>
-			<option value="playlist">Playlist/Album</option>
-		</select>
-		with 
-		<select name="attribute">
-			<option value="title">Title</option>
-			<option value="tags">Tags</option>
-		</select>
-		<input type="text" name="target" placeholder="Target" required>
-		<input type="submit">
-	</form>
-</div>
-
-<form action="loadBecomeArtist" method="POST">
-	<button>Become an Artist Today!</button>
-</form>
-
-</body>
-
+	<head>
+		<meta charset="UTF-8">
+		<title>Home Page</title>
+	</head>
+	<body bgcolor="FFFF00">
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
+		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+		<h1><p align="center">Home</p></h1>
+		<form action="loadProfile" method = "POST">
+			<button id="my-profile">My Profile</button>
+		</form>
+		<form action="signOut" method="POST">
+			<button id="sign-out">Sign Out</button>
+		</form>
+		<div id="things" class ="wrap">
+			<form action="search" method="POST">
+				<p align="center"><span style = "font-size: 30px;">Find a </span>
+				<select name="searchObject">
+					<option value ="artist">Musician</option>
+					<option value ="songs">Song</option>
+					<option value ="playlist">Playlist</option>
+				</select><span style = "font-size: 30px;">with </span>
+				<select name="attribute">
+					<option value ="title">Title</option>
+					<option value ="tags">Tags</option>
+				</select>
+				<input type="text" name="value" required>
+				<input type="submit" value="Search">
+				</p>
+			</form>
+		</div>
+	</body>
+	<style>
+		#things{
+			position:absolute;
+			left:10%;
+			top:30%;
+			width:80%;
+		}
+		#my-profile {
+			position:absolute;
+			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
+			right:45%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
+			right:3%;
+		}
+		#sign-out {
+			position:absolute;
+			width:10%;
+			height:8%;
+			right:60%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
+			left:3%;
+			font-size:15px;
+			font-weight:bold;
+		}
+		input[type="submit"] {
+			position:absolute;
+			width:20%;
+			height:70%;
+			right:40%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:150%;
+			font-size: 15px;
+			font-weight:bold;
+		}
+		#becomeArtist{
+			position:absolute;
+			width:16%;
+			height:7%;
+			right:42%;
+			bottom:40%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			font-size: 15px;
+			font-weight:bold;
+		}
+		input[type="text"]{
+			width:20%;
+		}
+		select{
+			font-size: 15px;
+			font-weight:bold;
+			height: 50%;
+		}
+	</style>
 </html>

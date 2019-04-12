@@ -11,34 +11,91 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+
+		<script>
+			window.addEventListener("load", function () {
+  				function sendData() {
+    					var XHR = new XMLHttpRequest();
+
+    					// Bind the FormData object and the form element
+    					var FD = new FormData(form);
+					
+
+    					// Define what happens on successful data submission
+    					XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+					
+							if (XHR.responseURL=='http://localhost:3000/authLogin') {
+								if (this.responseText == "success"){
+									window.location='homePage';
+								}else{
+									document.getElementById("response").innerHTML = this.responseText;
+								}
+							}
+							
+							
+						}
+    					});
+
+    					// Define what happens in case of error
+    					XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+
+    					// Set up our request
+    					XHR.open("POST", "authLogin");
+
+    					// The data sent is what the user provided in the form
+    					XHR.send(FD);
+				
+  				}
+
+  				// Access the form element...
+  				var form = document.getElementById("authLogin");
+				var butt = document.getElementById("login");
+  				// ...and take over its submit event.
+				butt.addEventListener("click", function (event) {
+    					event.preventDefault();
+
+    					sendData();
+  				});
+			});
+		</script>
 		<br/>
 		<h1><p align="center"> Pineapple Music Streaming</p></h1>
-		<br />
 		<br/>
-		<form action="authLogin" method="POST">
-			<input type="text" name="username" placeholder="Username" required>
-			<input type="password" name="password" placeholder="Password" required>
-			<input type="submit">
-		</form>
-		<div id="content">
-
-		<div id="submit">
-			<p align="center"><a href="HomePage.html"><b>Login</b></a></p>
-		</div>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<div id="forgot-password">
-			<p align="center"><a href="ForgotPassword.html"><b>Forgot Password</b></a></p>
-		</div>
-		<div id="create-account">
-			<form action="loadCreateAccount" method="POST">
-				<button>Sign up</button>
+		<p id="response" align="center"><br/></p>
+		
+		<div class="submit">
+			<form id="authLogin" align="center">
+				<input type="text" name="username" placeholder="Username" required>
+				<input type="password" name="password" placeholder="Password" required>
+				<button id="login">Login</button>
 			</form>
+
 		</div>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+
+		<form action="ForgotPassword" method="GET">
+			<button id="forgot-password">Forgot Password</button>
+		</form>
+		<form action="loadCreateAccount" method="POST">
+			<button id="create-account">Sign up</button>
+		</form>	
+		
 	</body>
 <style>
+	button {
+		background-color: orange;
+		border: solid black 1px;
+		height:6%;
+		width:15%;
+		font-weight:bold;
+	}
+
 	#forgot-password {
 		border: 1px solid black;
 		align="center";
@@ -46,6 +103,8 @@
 		width:15%;
 		position:absolute;
 		right:30%;
+		top:42%;
+
 	}
 	#create-account{
 		border: 1px solid black;
@@ -54,13 +113,29 @@
 		width:15%;
 		position:absolute;
 		right:50%;
+		top: 42%;
 	}
-	#submit {
-		border: 1px solid black;
-		align="center";
-		background-color:orange;
-		width:10%;
+	.submit input[type="text"]{
 		position:absolute;
+		align="center";
+		width:20%;
+		height:5%;
+		right:40%;
+		font-size:20px;
+	}
+	.submit input[type="password"]{
+		position:absolute;
+		align="center";
+		width:20%;
+		height:5%;
+		right:40%;
+		top:26%;
+		font-size:20px;
+	}
+	#login{
+		position:absolute;
+		top:34%;
+
 		right:43%;
 	}
 </style>

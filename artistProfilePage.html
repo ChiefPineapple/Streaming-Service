@@ -12,12 +12,14 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
 		<div id="content">
-		<div id="Home">
-			<p align="center"><a href="HomePage.html"><b>Home</b></a></p>
-		</div>
-		<div id="Update-Account">
-			<p align="center"><a href="UpdatingPage.html"><b>Update Account</b></a></p>
-		</div>
+
+		<form action="homePage" method="GET">
+			<button id="Home">Home</button>
+		</form>
+		<form action="updatingPage" method="GET">
+			<button id="Update-Account">Update Account</button>
+		</form>
+
 		<h1><p align="center">My Profile</p></h1>
 		<br />
 		<br />
@@ -101,34 +103,44 @@
 				]);
 		}
 		</script>
-		<div id="Create-Playlist">
-			<p align="center"><a href="CreatePlaylistPage.html"><b>Create Playlist</b></a></p>
-		</div>
-		<div id="Upload-Song">
-			<p align="center"><a href="UploadingPage.html"><b>Upload Song</b></a></p>
-		</div>
-		<div id="Messages">
-			<p align="center"><a href="Messages.html"><b>Messages</b></a></p>
-		</div>
+
+		
+		<form action="createPlaylistPage">
+			<button id="Create-Playlist">Create Playlist</button>
+		</form>
+		<form action="uploadPage" method="GET">
+			<button id="Upload-Song">Upload Song</button>
+		</form>
+
 	</body>
 	<style>
 		#Home {
 			position:absolute;
-  			display: inline-block;
-			width:8%;
- 			border:1px solid;
-			background-color: orange;
-			left: 3%;
-			top: 3%;
+
+			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
+			right:45%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
+			left:3%;
 		}
 		#Update-Account {
 			position:absolute;
-  			display: inline-block;
-			width:11%; 
- 			border:1px solid;
-			background-color: orange;
+			width:10%;
+			height:8%;
+			font-size:15px;
+			font-weight:bold;
+			right:45%;
+			border: 1px solid black;
+			align="center";
+			background-color:orange;
+			top:3%;
 			right:3%;
-			top: 3%;
+
 		}
 		#Playlists {
 			background-color: orange;
@@ -150,15 +162,7 @@
 			right: 31%;
 			top: 15%;
 		}
-		#Messages{
-			background-color: orange;
-			border: 1px solid black;
-			width: 10%;
-			align="center";
-			position:absolute;
-			right: 45%;
-			bottom: 10%;
-		}
+
 		#Upload-Lister{
 			display: inline-block;
 			border: 1px solid black;
@@ -180,7 +184,11 @@
 		#Create-Playlist{
 			background-color: orange;
 			border: 1px solid black;
+
+			font-weight:bold;
 			width: 15%;
+			height: 8%;
+
 			align="center";
 			position: absolute;
 			left:25%;
@@ -189,7 +197,11 @@
 		#Upload-Song{
 			background-color: orange;
 			border: 1px solid black;
+
+			font-weight:bold;
 			width: 15%;
+			height:8%;
+
 			align="center";
 			position: absolute;
 			right:25%;
