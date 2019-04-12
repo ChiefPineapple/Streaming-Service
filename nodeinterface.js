@@ -104,7 +104,7 @@ app.post('/authLogin', function(request, response) {
 					}else{
 						request.session.isArtist=false;
 					}
-					response.sendFile(path.join(__dirname + '/homePage.html'));
+					response.send('success');
 				});
 			} else {
 				response.send('Incorrect Username and/or Password!');
@@ -206,84 +206,66 @@ app.post('/signOut', function(request, response) {
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {
 	if (request.session.loggedin) {
-		response.write("<head><title>Result Page</title></head>");
-		response.write("<body bgcolor='FFFF00'>");
-		response.write("<h1><p align='center'>Results</p></h1>");
-		response.write("<form action='/homePage'><button id='Home'>Home</button></form></body>");
-		response.write("<style>#Home{position:absolute;display: inline-block;width:8%;border:1px solid;background-color: orange;left: 3%;top: 3%;}</style>");
 		var searchObject = request.body.searchObject;
 		var attribute = request.body.attribute;
 		var value = request.body.value;
 		if (searchObject=="artist"){
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
-				if(results.length>0){
-					var table = '';
-					var rows= results.length;
-					var cols=4;
-					for(var r = 0; r < rows; r++){
-						table += '<tr>';
-						
-						table += '<td>' + results[r].acntID + '</td>';
-						table += '<td>' + results[r].stageName + '</td>';
-						table += '<td>' + results[r].location + '</td>';
-						table += '<td>' + results[r].artistTag + '</td>';
-						
-						table += '<tr>';
+					if(results.length>0){
+						response.send(results);
 					}
-					response.write('<table border=1>' + table + '</table>');
-					
-					response.write("<table>");
-					response.write("<tr>");
-					for(var column in results[0]){
-						response.write("<td><label>" + column + "</label></td>");
+					else{
+						response.send('not found');
 					}
-					response.write("</tr>");
-					for(var row in results[row]){
-						response.write("<tr>");
-						for(var column in results[row]){
-							response.write("<td><label>" + results[row][column] + "</label></td>");
-						}
-						response.write("</tr>");
-					}
-					response.write("</table>");
-					response.end;
-				}
-				else{
-					response.send('not found');
-					response.end;
-				}});
+				});
 			} else {
 				connection.query('SELECT * FROM Artist WHERE artistTag = ?', [value], function (error, results, fields) {
-					response.send(results);
-					response.end;
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
 				});
 			}
 		} else if (searchObject=="song"){
 			if(attribute=="title"){
-				var sql = "SELECT * FROM Songs WHERE filename = ?";
-				connection.query(sql,value, function (error, results, fields) {
+				connection.query('SELECT * FROM Songs WHERE filename = ?', [value], function (error, results, fields) {
 					if(results.length>0){
 						response.send(results);
 					}
-					response.end;
+					else{
+						response.send('not found');
+					}
 				});
 			} else {
 				connection.query('SELECT * FROM Songs WHERE songTag = ?', [value], function (error, results, fields) {
-					response.send(results);
-					response.end;
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
 				});
 			}
 		} else {
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Playlist WHERE name = ?', [value], function (error, results, fields) {
-					response.send(results);
-					response.end;
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
 				});
 			} else {
 				connection.query('SELECT * FROM Playlist WHERE playlistTag = ?', [value], function (error, results, fields) {
-					response.send(results);
-					response.end;
+					if(results.length>0){
+						response.send(results);
+					}else{
+						response.send('not found');
+					}
 				});
 			}
 		}
@@ -292,14 +274,13 @@ app.post('/search', function(request, response) {
 	} else {
 		response.send('Please login to view this page!');
 	}
-	//response.end();
 });
 
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = file.name;
-		file.mv("C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/"+filename,function(err){
+		file.mv("/home/pi/nodelogin/uploads"+filename,function(err){
 			if(err){
 				console.log(err)
 				response.send("error occured")
