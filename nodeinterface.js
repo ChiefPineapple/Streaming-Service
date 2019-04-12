@@ -1,3 +1,4 @@
+
 var mysql = require('mysql');
 var express = require('express'),
 	app = express(),
@@ -8,7 +9,7 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 var multer = require('multer');
 var fs = require('fs');//to access file system
-app.use(upload()) 
+app.use(upload())
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
@@ -80,8 +81,12 @@ app.post('/loadBecomeArtist', function(request, response) {
 	response.sendFile(path.join(__dirname + '/becomeArtist.html'));
 });
 
-app.get('/UploadPage', function(request,response) {
+app.get('/uploadPage', function(request,response) {
 	response.sendFile(path.join(__dirname + '/uploadPage.html'));
+});
+
+app.get('/results', function(request,response) {
+	response.sendFile(path.join(__dirname + '/results.html'));
 });
 
 app.post('/authLogin', function(request, response) {
@@ -99,7 +104,7 @@ app.post('/authLogin', function(request, response) {
 					}else{
 						request.session.isArtist=false;
 					}
-					response.redirect('/homePage');
+					response.sendFile(path.join(__dirname + '/homePage.html'));
 				});
 			} else {
 				response.send('Incorrect Username and/or Password!');
@@ -172,7 +177,7 @@ app.post('/authCreateAccount', function(request, response) {
 								request.session.loggedin = true;
 								request.session.username = username;
 								request.session.userID = results.insertId;
-								response.redirect('/homePage');
+								response.send("success");
 							});
 						}
 					});
@@ -198,11 +203,14 @@ app.post('/signOut', function(request, response) {
 	response.redirect('/first');
 });
 
-
-
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {
 	if (request.session.loggedin) {
+		response.write("<head><title>Result Page</title></head>");
+		response.write("<body bgcolor='FFFF00'>");
+		response.write("<h1><p align='center'>Results</p></h1>");
+		response.write("<form action='/homePage'><button id='Home'>Home</button></form></body>");
+		response.write("<style>#Home{position:absolute;display: inline-block;width:8%;border:1px solid;background-color: orange;left: 3%;top: 3%;}</style>");
 		var searchObject = request.body.searchObject;
 		var attribute = request.body.attribute;
 		var value = request.body.value;
@@ -211,17 +219,20 @@ app.post('/search', function(request, response) {
 				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
 				if(results.length>0){
 					var table = '';
-					var rows= 5;
-					var cols=10;
+					var rows= results.length;
+					var cols=4;
 					for(var r = 0; r < rows; r++){
 						table += '<tr>';
-						for(var c = 0; c <= cols;c++){
-							table += '<td>' + c + '</td>';
-						}
+						
+						table += '<td>' + results[r].acntID + '</td>';
+						table += '<td>' + results[r].stageName + '</td>';
+						table += '<td>' + results[r].location + '</td>';
+						table += '<td>' + results[r].artistTag + '</td>';
+						
 						table += '<tr>';
 					}
 					response.write('<table border=1>' + table + '</table>');
-
+					
 					response.write("<table>");
 					response.write("<tr>");
 					for(var column in results[0]){
@@ -284,15 +295,11 @@ app.post('/search', function(request, response) {
 	//response.end();
 });
 
-app.get('/results', function(request,response) {
-	response.sendFile(path.join(__dirname + '/results.html'));
-});
-
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = file.name;
-		file.mv("/home/pi/nodelogin/uploads/"+filename,function(err){
+		file.mv("C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/"+filename,function(err){
 			if(err){
 				console.log(err)
 				response.send("error occured")
@@ -313,7 +320,8 @@ app.post('/loadProfile', function(request, response) {
 app.post('/becomeArtist', function(request, response) {
 	if (request.session.loggedin) {
 		connection.query('INSERT INTO Artist VALUES (?,?,?,?)', [request.session.userID, request.body.stageName, request.body.location, request.body.artistTag], function (error, results, fields) {
-			response.redirect('/artistHomePage');
+			request.session.isArtist=true;
+			response.redirect('/homePage');
 		});
 	
 	} else {
