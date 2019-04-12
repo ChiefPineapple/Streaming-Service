@@ -1,5 +1,4 @@
 var mysql = require('mysql');
-
 var express = require('express'),
 	app = express(),
 	upload = require("express-fileupload");
@@ -63,11 +62,7 @@ app.get('/updatingPage', function(request, response) {
 });
 
 app.get('/createPlaylist', function(request, response) {
-	response.sendFile(path.join(__dirname + '/CreatePlaylistPage.html'));
-});
-
-app.get('/uploadSong', function(request, response) {
-	response.sendFile(path.join(__dirname + '/UploadingPage.html'));
+	response.sendFile(path.join(__dirname + '/createPlaylistPage.html'));
 });
 
 app.get('/ForgotPassword', function(request, response) {
