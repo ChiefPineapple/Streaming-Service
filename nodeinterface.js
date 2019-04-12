@@ -1,3 +1,4 @@
+
 var mysql = require('mysql');
 var express = require('express'),
 	app = express(),
@@ -8,12 +9,11 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 var multer = require('multer');
 var fs = require('fs');//to access file system
-app.use(upload()) 
+app.use(upload())
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	//password : 'Jarolddontdothat1',
 	database : 'pineapplemusic'
 });
 
@@ -62,7 +62,11 @@ app.get('/updatingPage', function(request, response) {
 });
 
 app.get('/createPlaylist', function(request, response) {
-	response.sendFile(path.join(__dirname + '/createPlaylistPage.html'));
+	response.sendFile(path.join(__dirname + '/CreatePlaylistPage.html'));
+});
+
+app.get('/uploadSong', function(request, response) {
+	response.sendFile(path.join(__dirname + '/UploadingPage.html'));
 });
 
 app.get('/ForgotPassword', function(request, response) {
@@ -79,6 +83,10 @@ app.post('/loadBecomeArtist', function(request, response) {
 
 app.get('/uploadPage', function(request,response) {
 	response.sendFile(path.join(__dirname + '/uploadPage.html'));
+});
+
+app.get('/results', function(request,response) {
+	response.sendFile(path.join(__dirname + '/results.html'));
 });
 
 app.post('/authLogin', function(request, response) {
@@ -195,8 +203,6 @@ app.post('/signOut', function(request, response) {
 	response.redirect('/first');
 });
 
-
-
 //these queries still need functionality for the returned values
 app.post('/search', function(request, response) {
 	if (request.session.loggedin) {
@@ -207,45 +213,14 @@ app.post('/search', function(request, response) {
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
 				if(results.length>0){
-					var table = '';
-					var rows= results.length;
-					var cols=4;
-					for(var r = 0; r < rows; r++){
-						table += '<tr>';
-						
-						table += '<td>' + results[r].acntID + '</td>';
-						table += '<td>' + results[r].stageName + '</td>';
-						table += '<td>' + results[r].location + '</td>';
-						table += '<td>' + results[r].artistTag + '</td>';
-						
-						table += '<tr>';
-					}
-					response.write('<table border=1>' + table + '</table>');
-
-					response.write("<table>");
-					response.write("<tr>");
-					for(var column in results[0]){
-						response.write("<td><label>" + column + "</label></td>");
-					}
-					response.write("</tr>");
-					for(var row in results[row]){
-						response.write("<tr>");
-						for(var column in results[row]){
-							response.write("<td><label>" + results[row][column] + "</label></td>");
-						}
-						response.write("</tr>");
-					}
-					response.write("</table>");
-					response.end;
+					response.send(results);
 				}
 				else{
 					response.send('not found');
-					response.end;
 				}});
 			} else {
 				connection.query('SELECT * FROM Artist WHERE artistTag = ?', [value], function (error, results, fields) {
 					response.send(results);
-					response.end;
 				});
 			}
 		} else if (searchObject=="song"){
@@ -255,24 +230,20 @@ app.post('/search', function(request, response) {
 					if(results.length>0){
 						response.send(results);
 					}
-					response.end;
 				});
 			} else {
 				connection.query('SELECT * FROM Songs WHERE songTag = ?', [value], function (error, results, fields) {
 					response.send(results);
-					response.end;
 				});
 			}
 		} else {
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Playlist WHERE name = ?', [value], function (error, results, fields) {
 					response.send(results);
-					response.end;
 				});
 			} else {
 				connection.query('SELECT * FROM Playlist WHERE playlistTag = ?', [value], function (error, results, fields) {
 					response.send(results);
-					response.end;
 				});
 			}
 		}
@@ -281,24 +252,12 @@ app.post('/search', function(request, response) {
 	} else {
 		response.send('Please login to view this page!');
 	}
-	//response.end();
-});
-
-app.get('/results', function(request,response) {
-	response.sendFile(path.join(__dirname + '/results.html'));
 });
 
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = file.name;
-		connection.query('INSERT INTO songs (filename, songTag) VALUES (?,?)', [filename, request.body.tag], function (error, results, fields) {
-			console.log(error);
-			var songid = results.insertId;
-			connection.query('INSERT INTO songowner VALUES (?,?)', [request.session.userID, songid], function (error, results, fields) {
-				console.log(error);
-			});
-		});
 		file.mv("C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/"+filename,function(err){
 			if(err){
 				console.log(err)
@@ -321,7 +280,7 @@ app.post('/becomeArtist', function(request, response) {
 	if (request.session.loggedin) {
 		connection.query('INSERT INTO Artist VALUES (?,?,?,?)', [request.session.userID, request.body.stageName, request.body.location, request.body.artistTag], function (error, results, fields) {
 			request.session.isArtist=true;
-			response.redirect('/artistHomePage');
+			response.redirect('/homePage');
 		});
 	
 	} else {
