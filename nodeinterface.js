@@ -155,6 +155,29 @@ app.post('/changePassword', function(request, response) {
 	});
 });
 
+app.post('/updateAccount', function(request,response) {
+	var username = request.body.username;
+	var password = request.body.password;
+	var newusername = request.body.newusername;
+	var newemail = request.body.newemail;
+	var newpassword = request.body.newpassword;
+	var email = request.session.email;
+	if (username && password && newusername && newpassword && newemail) {
+		connection.query('SELECT * FROM Accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+				connection.query('UPDATE Accounts SET username= ?, email = ?, password = ? WHERE username=?', [newusername,newemail,newpassword,username], function(error, results, fields) {
+					request.session.username = newusername;
+					response.send('success');
+				});
+			} else {
+				response.send();
+			}			
+			//response.end();
+		});
+	}else{
+		response.send('Enter username and password!');
+	}
+});
 // the querys in this post are nested because the output of one query 
 app.post('/authCreateAccount', function(request, response) {
 	var username = request.body.username;
@@ -177,6 +200,10 @@ app.post('/authCreateAccount', function(request, response) {
 								request.session.loggedin = true;
 								request.session.username = username;
 								request.session.userID = results.insertId;
+								request.session.isArtist=false;
+								connection.query('INSERT INTO Playlist (ownerID, name, album) VALUES (?,?,?)', [request.session.userID, "My Library", 0], function(error, results, fields) {
+									console.log(error);
+								});
 								response.send("success");
 							});
 						}
@@ -277,22 +304,42 @@ app.post('/search', function(request, response) {
 });
 
 app.post('/resultSelect', function(request, response) {
-	console.log(request.body.acntID);
-	console.log(request.body.songID1);
-	console.log(request.body.playlistID);
+	console.log(request);
 	if(request.body.acntID){
-		response.send("acntID is "+ request.body.acntID);
+		
+		connection.query('INSERT INTO AccountFollowsArtist VALUES (?,?)', [request.session.userID, request.body.acntID], function(error, results, fields) {
+			console.log("acntID " + request.body.acntID + " added to " + request.session.userID);
+		});
+		if (request.session.isArtist==true){
+		response.redirect('/artistProfilePage');
+		}else{
+		response.redirect('/nonArtistProfilePage');
+		}
 	}
-	if(request.body.songID2) {
-		response.send("songID is " + request.body.songID2);
+	else if(request.body.songID) {
+		connection.query('SELECT * FROM Playlist  WHERE ownerID = ? AND name = ?', [request.session.userID, "My Library"], function(error, results, fields) {
+			var pId = results[0].playlistID;
+			connection.query('INSERT INTO Playlist_has_Songs VALUES (?,?)', [pId, request.body.songID], function(error,results,fields) {
+				console.log(error);
+			});
+		});
+		if (request.session.isArtist==true){
+			response.redirect('/artistProfilePage');
+		}else{
+			response.redirect('/nonArtistProfilePage');
+		}
+	}else {
+		response.send("error");
 	}
-	//response.end();
+		
+	
+	
 });
 
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
-			filename = file.name;
+			filename = request.body.Name;
 		var tag = request.body.Tags;
 		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
 			console.log('1 '+ error);

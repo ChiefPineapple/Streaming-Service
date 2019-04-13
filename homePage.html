@@ -13,7 +13,13 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
 			<script>
 			window.addEventListener("load", function () {
-  				function sendData() {
+  				var XHR2 = new XMLHttpRequest();
+				XHR2.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+							console.log(this.response);
+							}
+				});
+				function sendData() {
     					var XHR = new XMLHttpRequest();
 
     					//Bind the FormData object and the form element
@@ -45,9 +51,9 @@ but having one event listener for <submit> seems to be retrieving the values for
 									if (cols == 3) {
 										for(var r = 0; r < rows; r++){
 										
-										table += '<tr>';
+										table += '<tr>'//<input type="hidden" id="songID'+r+'" name="songID'+r+'" value ="'+ results[r].songID + '">';
 						
-										table += '<td> <button type="submit"> Select song </button> <input type="hidden" id="songID" name="songID'+r+'" value ="'+ results[r].songID + '"> </td>';
+										table += '<td> <button name="songID" type="submit" value ="'+ results[r].songID + '"> Select song </button></td>';
 										table += '<td>' + results[r].filename + '</td>';
 										table += '<td>' + results[r].songTag + '</td>';
 						
@@ -56,9 +62,9 @@ but having one event listener for <submit> seems to be retrieving the values for
 									}else if (cols == 4) {
 										for(var r = 0; r < rows; r++){
 										
-											table += '<tr>';
+											table += '<tr>'
 						
-											table += '<td><button type="submit"> Select Artist </button> <input type="hidden" id="acntID" name="acntID" value ="' + results[r].acntID + '"></td>';
+											table += '<td> <button name="acntID" type="submit" value ="'+ results[r].acntID + '"> Select Artist </button></td>';
 											table += '<td>' + results[r].stageName + '</td>';
 											table += '<td>' + results[r].location + '</td>';
 											table += '<td>' + results[r].artistTag + '</td>';
@@ -70,7 +76,7 @@ but having one event listener for <submit> seems to be retrieving the values for
 										
 											table += '<tr>';
 						
-											table += '<td><button type="submit"> Select Playlist </button> <input type="hidden" id="playlistID" name="playlistID" value ="' + results[r].playlistID + '"></td>';
+											table += '<td><form action ="resultSelect" method ="POST"><button type="submit" name="playlistID" value ="' + results[r].playlistID + '"> Select Playlist </button> </form></td>';
 											table += '<td>' + results[r].ownerID + '</td>';
 											table += '<td>' + results[r].name + '</td>';
 											table += '<td>' + results[r].album + '</td>';
@@ -80,7 +86,7 @@ but having one event listener for <submit> seems to be retrieving the values for
 										}
 									}
 									table += "</table>";	
-      								document.getElementById("choose").innerHTML = table;
+      								document.getElementById("fuck").innerHTML = table;
 
 														
 								}
@@ -102,12 +108,12 @@ but having one event listener for <submit> seems to be retrieving the values for
     					XHR.send(FD);
 				
   				}
-				function sendData2() {//this sends the data for choosing an element, i dont think this needs to be changed
+				/*function sendData2() {//this sends the data for choosing an element, i dont think this needs to be changed
     					var XHR = new XMLHttpRequest();
 
     					// Bind the FormData object and the form element
     					var FD = new FormData(form2);
-					
+						console.log("test" + event.target.id);
 
     					// Define what happens on successful data submission
     					XHR.addEventListener("load", function(event) {
@@ -132,7 +138,7 @@ but having one event listener for <submit> seems to be retrieving the values for
     					// The data sent is what the user provided in the form
     					XHR.send(FD);
 				
-  				}
+  				}*/
 
   				// Access the form element...
   				var form = document.getElementById("search");
@@ -143,16 +149,17 @@ but having one event listener for <submit> seems to be retrieving the values for
 
     					sendData();
   				});
-				var form2 = document.getElementById("choose");//this is an event listener for the whole table. notice its already listening to the empty "choose" element upon loading the page, before a search is done and a table is inserted into it. that shouldnt be the issue, just good to recognize that.
+				//var form2 = document.getElementById("choose");//this is an event listener for the whole table. notice its already listening to the empty "choose" element upon loading the page, before a search is done and a table is inserted into it. that shouldnt be the issue, just good to recognize that.
 
 				
-				form2.addEventListener("submit", function (event) {/*this may be the issue. every button in the table is a 'submit' type. i wish that would only submit the element that was clicked, but i guess when this listener is activated by one button, it submits the data for all the buttons it was listening to.
-				we could potentially count the number of elements there will be and create a new listener for each one (similar to how we used cols for building the table) but that seems really messy 
-				*/
-					event.preventDefault();
-
-					sendData2();
-				});
+				//form2.addEventListener("submit", function (event) {/*this may be the issue. every button in the table is a 'submit' type. i wish that would only submit the element that was clicked, but i guess when this listener is activated by one button, it submits the data for all the buttons it was listening to.
+				//we could potentially count the number of elements there will be and create a new listener for each one (similar to how we used cols for building the table) but that seems really messy 
+				//*/
+				//	document.getElementById("response").innerHTML = "boo";
+					//event.preventDefault();
+					//console.log("test" + event.composedPath());
+					//sendData2();
+				//});
 				
 			});
 	</script>
@@ -184,7 +191,7 @@ but having one event listener for <submit> seems to be retrieving the values for
 		</div>
 		
 		
-		<form id='choose'> </form> 
+		<form id = "fuck" action ="resultSelect" method ="POST"> </form> 
 	</body>
 	<style>
 		#things{
