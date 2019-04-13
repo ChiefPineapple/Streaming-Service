@@ -19,6 +19,13 @@
 		<br />
 		<form action="upload" enctype="multipart/form-data" method="POST">
 			<input type="file" name="filename">
+			<div id="tags">
+			<select name="Tags">
+					<option value ="rock">rock</option>
+					<option value ="jazz">jazz</option>
+					<option value ="electronic">electronic</option>
+				</select>
+			</div>
 			<input type="submit" value="upload">
 		</form>
 	</body>
@@ -59,6 +66,15 @@
 			width:8%;
 			position:absolute;
 			right:46%;
+			top:30%;
+		}
+		#tags {
+			border: 1px solid black;
+			align="center";
+			background-color: orange;
+			width:8%;
+			position:absolute;
+			right:32%;
 			top:30%;
 		}
 		input[type="submit"]{

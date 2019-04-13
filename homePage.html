@@ -28,6 +28,11 @@
 								if (this.responseText == "not found"){
 									document.getElementById("response").innerHTML = this.responseText;
 								}else{
+/*right now the form element is already in the html below labeled as 'choose' (im not very creative).
+the main goal is to be able to select just the primary key of the element clicked by user, right now its selecting all of the primarys in the table.
+the desired way of pulling this off is to have the whole table be in one <form> so we only need one event listener for clicking in the table (thats how it is now),
+but having one event listener for <submit> seems to be retrieving the values for all of the <submit> elements, not just the one that was actually clicked
+*/  								
 									var results = JSON.parse(this.responseText);
 									
 									var table = "<table border = '1'>";
@@ -42,7 +47,7 @@
 										
 										table += '<tr>';
 						
-										table += '<td> <form id="chooseSong">  <button type="submit"> Select song </button> <input type="hidden" id="songID" name="songID" value ="'+ results[r].songID + '"></form> </td>';
+										table += '<td> <button type="submit"> Select song </button> <input type="hidden" id="songID" name="songID'+r+'" value ="'+ results[r].songID + '"> </td>';
 										table += '<td>' + results[r].filename + '</td>';
 										table += '<td>' + results[r].songTag + '</td>';
 						
@@ -53,7 +58,7 @@
 										
 											table += '<tr>';
 						
-											table += '<td><form id="chooseArtist">  <button type="submit"> Select Artist </button> <input type="hidden" id="acntID" name="acntID" value ="' + results[r].acntID + '"></form></td>';
+											table += '<td><button type="submit"> Select Artist </button> <input type="hidden" id="acntID" name="acntID" value ="' + results[r].acntID + '"></td>';
 											table += '<td>' + results[r].stageName + '</td>';
 											table += '<td>' + results[r].location + '</td>';
 											table += '<td>' + results[r].artistTag + '</td>';
@@ -65,7 +70,7 @@
 										
 											table += '<tr>';
 						
-											table += '<td><form id="choosePlaylist">  <button type="submit"> Select Playlist </button> <input type="hidden" id="playlistID" name="playlistID" value ="' + results[r].playlistID + '"></form></td>';
+											table += '<td><button type="submit"> Select Playlist </button> <input type="hidden" id="playlistID" name="playlistID" value ="' + results[r].playlistID + '"></td>';
 											table += '<td>' + results[r].ownerID + '</td>';
 											table += '<td>' + results[r].name + '</td>';
 											table += '<td>' + results[r].album + '</td>';
@@ -74,13 +79,16 @@
 											table += '<tr>';
 										}
 									}
-									table += "</table>";
-      								document.getElementById("response").innerHTML = table;
+									table += "</table>";	
+      								document.getElementById("choose").innerHTML = table;
+
+														
 								}
 							}
 							
 							}
     					});
+
 
     					// Define what happens in case of error
     					XHR.addEventListener("error", function(event) {
@@ -89,6 +97,37 @@
 
     					// Set up our request
     					XHR.open("POST", "search");
+
+    					// The data sent is what the user provided in the form
+    					XHR.send(FD);
+				
+  				}
+				function sendData2() {//this sends the data for choosing an element, i dont think this needs to be changed
+    					var XHR = new XMLHttpRequest();
+
+    					// Bind the FormData object and the form element
+    					var FD = new FormData(form2);
+					
+
+    					// Define what happens on successful data submission
+    					XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+					
+							if (XHR.responseURL=='http://localhost:3000/resultSelect') {
+      								document.getElementById("response").innerHTML = this.responseText;
+								
+							}
+							
+						}
+    					});
+
+    					// Define what happens in case of error
+    					XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+
+    					// Set up our request
+    					XHR.open("POST", "resultSelect");
 
     					// The data sent is what the user provided in the form
     					XHR.send(FD);
@@ -104,10 +143,21 @@
 
     					sendData();
   				});
+				var form2 = document.getElementById("choose");//this is an event listener for the whole table. notice its already listening to the empty "choose" element upon loading the page, before a search is done and a table is inserted into it. that shouldnt be the issue, just good to recognize that.
+
+				
+				form2.addEventListener("submit", function (event) {/*this may be the issue. every button in the table is a 'submit' type. i wish that would only submit the element that was clicked, but i guess when this listener is activated by one button, it submits the data for all the buttons it was listening to.
+				we could potentially count the number of elements there will be and create a new listener for each one (similar to how we used cols for building the table) but that seems really messy 
+				*/
+					event.preventDefault();
+
+					sendData2();
+				});
 				
 			});
 	</script>
 		<h1><p align="center">Home</p></h1>
+		
 		<form action="loadProfile" method = "POST">
 			<button id="my-profile">My Profile</button>
 		</form>
@@ -127,17 +177,20 @@
 					<option value ="tags">Tags</option>
 				</select>
 				<input type="text" name="value" required>
+				<p id="response" align="center"><br/></p>
 				<input type="submit" value="Search">
 				</p>
 			</form>
 		</div>
-		<p id="response" align="center"><br/></p>
+		
+		
+		<form id='choose'> </form> 
 	</body>
 	<style>
 		#things{
 			position:absolute;
 			left:10%;
-			top:30%;
+			top:40%;
 			width:80%;
 		}
 		#my-profile {
@@ -174,7 +227,7 @@
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
-			top:150%;
+			top:160%;
 			font-size: 15px;
 			font-weight:bold;
 		}
@@ -183,7 +236,7 @@
 			width:16%;
 			height:7%;
 			right:42%;
-			bottom:40%;
+			bottom:30%;
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
@@ -198,5 +251,14 @@
 			font-weight:bold;
 			height: 50%;
 		}
+		table{
+			position:absolute;
+			overflow-y:scroll;
+			height:30%;
+			width:30%;
+			display:block;
+			top:10%;
+			right:35%;
+			}
 	</style>
 </html>

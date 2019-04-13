@@ -212,38 +212,60 @@ app.post('/search', function(request, response) {
 		if (searchObject=="artist"){
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Artist WHERE stageName = ?', [value], function (error, results, fields) {
-				if(results.length>0){
-					response.send(results);
-				}
-				else{
-					response.send('not found');
-				}});
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
+				});
 			} else {
 				connection.query('SELECT * FROM Artist WHERE artistTag = ?', [value], function (error, results, fields) {
-					response.send(results);
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
 				});
 			}
 		} else if (searchObject=="song"){
 			if(attribute=="title"){
-				var sql = "SELECT * FROM Songs WHERE filename = ?";
-				connection.query(sql,value, function (error, results, fields) {
+				connection.query('SELECT * FROM Songs WHERE filename = ?', [value], function (error, results, fields) {
 					if(results.length>0){
 						response.send(results);
+					}
+					else{
+						response.send('not found');
 					}
 				});
 			} else {
 				connection.query('SELECT * FROM Songs WHERE songTag = ?', [value], function (error, results, fields) {
-					response.send(results);
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
 				});
 			}
 		} else {
 			if(attribute=="title"){
 				connection.query('SELECT * FROM Playlist WHERE name = ?', [value], function (error, results, fields) {
-					response.send(results);
+					if(results.length>0){
+						response.send(results);
+					}
+					else{
+						response.send('not found');
+					}
 				});
 			} else {
 				connection.query('SELECT * FROM Playlist WHERE playlistTag = ?', [value], function (error, results, fields) {
-					response.send(results);
+					if(results.length>0){
+						response.send(results);
+					}else{
+						response.send('not found');
+					}
 				});
 			}
 		}
@@ -254,10 +276,31 @@ app.post('/search', function(request, response) {
 	}
 });
 
+app.post('/resultSelect', function(request, response) {
+	console.log(request.body.acntID);
+	console.log(request.body.songID1);
+	console.log(request.body.playlistID);
+	if(request.body.acntID){
+		response.send("acntID is "+ request.body.acntID);
+	}
+	if(request.body.songID2) {
+		response.send("songID is " + request.body.songID2);
+	}
+	//response.end();
+});
+
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = file.name;
+		var tag = request.body.Tags;
+		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
+			console.log('1 '+ error);
+			var insertedSong = results.insertId;
+			connection.query('INSERT INTO SongOwner VALUES (?,?)', [request.session.userID, insertedSong], function(error, results, fields) {
+				console.log('2 '+ error);
+			});
+		});
 		file.mv("C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/"+filename,function(err){
 			if(err){
 				console.log(err)
