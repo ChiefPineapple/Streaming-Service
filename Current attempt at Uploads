@@ -1,0 +1,40 @@
+app.post('/upload', function(request, response) {
+	if(request.files){
+		var file = request.files.filename,
+			filename = request.body.Name;
+		var songTag = request.body.songTag;
+		var albumTag = request.body.albumTag;
+		var albumName=request.body.albumName;
+		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
+			console.log('1 '+ error);
+			var insertedSong = results.insertId;
+			connection.query('INSERT INTO SongOwner (acntID,sID) VALUES (?,?)', [request.session.userID, insertedSong], function(error, results, fields) {
+				console.log('2 '+ error);
+			});
+			connection.query('SELECT * FROM Playlist WHERE ownderID = ? AND name = ?', [request.session.userID, albumName], function(error,results, fields) {
+				if(results.length>0){
+					var list = results.playlistID;
+					connection.query('INSERT INTO Playlist_has_Songs (playlistID,songID) VALUES (?,?)', [list, insertedSong], function(error, results, fields) {
+						console.log('2 '+error);
+					});
+				}
+				else{
+					connection.query('INSERT INTO Playlist (ownerID,name,album,playlistTag) VALUES (?,?,'true',?)',[request.session.userID, albumName,playlistTag], function(error, results, fields) {
+						var list = results.playlistID;
+						connection.query('INSERT INTO Playlist_has_Songs (playlistID,songID) VALUES (?,?)', [list, insertedSong],function(error, results, fields){
+							console.log('2 '+error);
+						});
+					});
+				}
+			});
+		});
+		file.mv("/home/pi/nodelogin/uploads/"+filename+".mp3",function(err){
+			if(err){
+				console.log(err)
+				response.send("error occured")
+			}else{
+				response.send("success")
+			}
+		})
+	}
+});
