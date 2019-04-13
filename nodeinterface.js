@@ -177,6 +177,7 @@ app.post('/authCreateAccount', function(request, response) {
 								request.session.loggedin = true;
 								request.session.username = username;
 								request.session.userID = results.insertId;
+								request.session.isArtist=false;
 								response.send("success");
 							});
 						}
@@ -300,7 +301,7 @@ app.post('/resultSelect', function(request, response) {
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
-			filename = file.name;
+			filename = request.body.Name;
 		var tag = request.body.Tags;
 		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
 			console.log('1 '+ error);
@@ -309,12 +310,12 @@ app.post('/upload', function(request, response) {
 				console.log('2 '+ error);
 			});
 		});
-		file.mv("/home/pi/nodelogin/uploads/"+filename,function(err){
+		file.mv("/home/pi/nodelogin/uploads/"+filename+".mp3",function(err){
 			if(err){
 				console.log(err)
 				response.send("error occured")
 			}else{
-				response.send("Done!")
+				response.send("success")
 			}
 		})
 	}

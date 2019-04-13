@@ -17,8 +17,17 @@
 		</form>
 		<h1><p align="center">Upload a Song</p></h1>
 		<br />
-		<form action="upload" encType="multipart/form-data" method="POST">
+		<form action="upload" enctype="multipart/form-data" method="POST">
 			<input type="file" name="filename">
+			<input type="text" name="Name" placeholder="Name"><br>
+			<div id="tags">
+			<select name="Tags">
+					<option value="rock">Rock</option>
+					<option value="jazz">Jazz</option>
+					<option value="rap">Rap</option>
+					<option value="electronic">Electronic</option>
+				</select>
+			</div>
 			<input type="submit" value="upload">
 		</form>
 	</body>
@@ -60,6 +69,22 @@
 			position:absolute;
 			right:46%;
 			top:30%;
+		}
+		#tags {
+			border: 1px solid black;
+			align="center";
+			background-color: orange;
+			width:8%;
+			position:absolute;
+			right:32%;
+			top:30%;
+		}
+		input[type="text"]{
+			border: 1px solid black;
+			align="center";
+			position:absolute;
+			right:32%;
+			top:20%;
 		}
 		input[type="submit"]{
 			border: 1px solid black;
