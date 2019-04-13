@@ -5,13 +5,13 @@ app.post('/upload', function(request, response) {
 		var songTag = request.body.songTag;
 		var albumTag = request.body.albumTag;
 		var albumName=request.body.albumName;
-		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
+		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, songTag], function(error, results, fields) {
 			console.log('1 '+ error);
 			var insertedSong = results.insertId;
 			connection.query('INSERT INTO SongOwner (acntID,sID) VALUES (?,?)', [request.session.userID, insertedSong], function(error, results, fields) {
 				console.log('2 '+ error);
 			});
-			connection.query('SELECT * FROM Playlist WHERE ownderID = ? AND name = ?', [request.session.userID, albumName], function(error,results, fields) {
+			connection.query('SELECT * FROM Playlist WHERE ownderID = ? AND name = ?', [request.session.userID, albumName], function (error, results, fields) {
 				if(results.length>0){
 					var list = results.playlistID;
 					connection.query('INSERT INTO Playlist_has_Songs (playlistID,songID) VALUES (?,?)', [list, insertedSong], function(error, results, fields) {
@@ -19,7 +19,7 @@ app.post('/upload', function(request, response) {
 					});
 				}
 				else{
-					connection.query('INSERT INTO Playlist (ownerID,name,album,playlistTag) VALUES (?,?,'true',?)',[request.session.userID, albumName,playlistTag], function(error, results, fields) {
+					connection.query('INSERT INTO Playlist (ownerID,name,album,playlistTag) VALUES (?,?,true,?)',[request.session.userID, albumName,playlistTag], function(error, results, fields) {
 						var list = results.playlistID;
 						connection.query('INSERT INTO Playlist_has_Songs (playlistID,songID) VALUES (?,?)', [list, insertedSong],function(error, results, fields){
 							console.log('2 '+error);
