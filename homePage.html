@@ -11,19 +11,115 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
+			<script>
+			window.addEventListener("load", function () {
+  				function sendData() {
+    					var XHR = new XMLHttpRequest();
+
+    					//Bind the FormData object and the form element
+    					var FD = new FormData(form);
+					
+
+    					// Define what happens on successful data submission
+    					XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+							console.log(this.response);
+							if (XHR.responseURL=='http://localhost:3000/search') {
+								if (this.responseText == "not found"){
+									document.getElementById("response").innerHTML = this.responseText;
+								}else{
+									var results = JSON.parse(this.responseText);
+									
+									var table = "<table border = '1'>";
+									var rows= results.length;
+									var cols=0; //this strategy of identifying what type of table to produce is fragile, can break if number of attributes in database change
+									for(var column in results[0]){
+										table += "<td><label>" + column + "</label></td>";
+										cols++;
+									}
+									if (cols == 3) {
+										for(var r = 0; r < rows; r++){
+										
+										table += '<tr>';
+						
+										table += '<td> <form id="chooseSong">  <button type="submit"> Select song </button> <input type="hidden" id="songID" name="songID" value ="'+ results[r].songID + '"></form> </td>';
+										table += '<td>' + results[r].filename + '</td>';
+										table += '<td>' + results[r].songTag + '</td>';
+						
+										table += '<tr>';
+										}
+									}else if (cols == 4) {
+										for(var r = 0; r < rows; r++){
+										
+											table += '<tr>';
+						
+											table += '<td><form id="chooseArtist">  <button type="submit"> Select Artist </button> <input type="hidden" id="acntID" name="acntID" value ="' + results[r].acntID + '"></form></td>';
+											table += '<td>' + results[r].stageName + '</td>';
+											table += '<td>' + results[r].location + '</td>';
+											table += '<td>' + results[r].artistTag + '</td>';
+						
+											table += '<tr>';
+										}
+									}else if (cols==5) {
+										for(var r = 0; r < rows; r++){
+										
+											table += '<tr>';
+						
+											table += '<td><form id="choosePlaylist">  <button type="submit"> Select Playlist </button> <input type="hidden" id="playlistID" name="playlistID" value ="' + results[r].playlistID + '"></form></td>';
+											table += '<td>' + results[r].ownerID + '</td>';
+											table += '<td>' + results[r].name + '</td>';
+											table += '<td>' + results[r].album + '</td>';
+											table += '<td>' + results[r].playlistTag + '</td>';
+						
+											table += '<tr>';
+										}
+									}
+									table += "</table>";	
+      								document.getElementById("response").innerHTML = table;
+								}
+							}
+							
+							}
+    					});
+
+    					// Define what happens in case of error
+    					XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+
+    					// Set up our request
+    					XHR.open("POST", "search");
+
+    					// The data sent is what the user provided in the form
+    					XHR.send(FD);
+				
+  				}
+
+  				// Access the form element...
+  				var form = document.getElementById("search");
+
+  				// ...and take over its submit event.
+  				form.addEventListener("submit", function (event) {
+    					event.preventDefault();
+
+    					sendData();
+  				});
+				
+			});
+	</script>
 		<h1><p align="center">Home</p></h1>
 		<form action="loadProfile" method = "POST">
 			<button id="my-profile">My Profile</button>
 		</form>
 		<form action="signOut" method="POST">
 			<button id="sign-out">Sign Out</button>
-		</form>
+		</form> 
 		<div id="things" class ="wrap">
-			<form action="search" method="POST">
+			<form id="search" >
 				<p align="center"><span style = "font-size: 30px;">Find a </span>
 				<select name="searchObject">
 					<option value ="artist">Musician</option>
-					<option value ="songs">Song</option>
+					<option value ="song">Song</option>
 					<option value ="playlist">Playlist</option>
 				</select><span style = "font-size: 30px;">with </span>
 				<select name="attribute">
@@ -35,12 +131,13 @@
 				</p>
 			</form>
 		</div>
+		<p id="response" align="center"><br/></p>
 	</body>
 	<style>
 		#things{
 			position:absolute;
 			left:10%;
-			top:30%;
+			top:40%;
 			width:80%;
 		}
 		#my-profile {
@@ -77,7 +174,7 @@
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
-			top:150%;
+			top:160%;
 			font-size: 15px;
 			font-weight:bold;
 		}
@@ -86,7 +183,7 @@
 			width:16%;
 			height:7%;
 			right:42%;
-			bottom:40%;
+			bottom:30%;
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
@@ -101,5 +198,14 @@
 			font-weight:bold;
 			height: 50%;
 		}
+		table{
+			position:absolute;
+			overflow-y:scroll;
+			height:30%;
+			width:30%;
+			display:block;
+			top:10%;
+			right:35%;
+			}
 	</style>
 </html>
