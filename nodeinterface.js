@@ -336,24 +336,46 @@ app.post('/resultSelect', function(request, response) {
 	
 });
 
+app.post('/displayProfileContent', function(request, response) {
+	response.send("poooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooop");
+});
+
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
-			filename = request.body.Name;
-		var tag = request.body.Tags;
-		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
+			filename = request.body.songName;
+		var songTag = request.body.songTag;
+		var albumTag = request.body.albumTag;
+		var albumName=request.body.albumName;
+		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, songTag], function(error, results, fields) {
 			console.log('1 '+ error);
 			var insertedSong = results.insertId;
-			connection.query('INSERT INTO SongOwner VALUES (?,?)', [request.session.userID, insertedSong], function(error, results, fields) {
+			connection.query('INSERT INTO SongOwner (acntID,sID) VALUES (?,?)', [request.session.userID, insertedSong], function(error, results, fields) {
 				console.log('2 '+ error);
 			});
+			connection.query('SELECT * FROM Playlist WHERE ownerID = ? AND name = ?', [request.session.userID, albumName], function(error, results, fields) {
+				if(results.length>0){
+					var list = results.playlistID;
+					connection.query('INSERT INTO Playlist_has_Songs (playlistID,songID) VALUES (?,?)', [list, insertedSong], function(error, results, fields) {
+						console.log('2 '+error);
+					});
+				}
+				else{
+					connection.query('INSERT INTO Playlist (ownerID,name,album,playlistTag) VALUES (?,?,true,?)',[request.session.userID, albumName,albumTag], function(error, results, fields) {
+						var list = results.playlistID;
+						connection.query('INSERT INTO Playlist_has_Songs (playlistID,songID) VALUES (?,?)', [list, insertedSong],function(error, results, fields){
+							console.log('2 '+error);
+						});
+					});
+				}
+			});
 		});
-		file.mv("C:/Users/Alex/eclipse-workspace/PineappleMiddleware/nodeMiddleware/uploads/"+filename,function(err){
+		file.mv("/home/pi/nodelogin/uploads/"+filename+".mp3",function(err){
 			if(err){
 				console.log(err)
 				response.send("error occured")
 			}else{
-				response.send("Done!")
+				response.send("success")
 			}
 		})
 	}

@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
+<script>
+			function getcontent() {
+				var XHR = new XMLHttpRequest ();
+				
+				XHR.open("POST", "displayProfileContent");
+				XHR.send("start");
+						XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+					
+								if (XHR.responseURL=='http://localhost:3000/displayProfileContent') {
+      								document.getElementById("status").innerHTML = this.responseText;
+								
+								}
+							
+							}
+    					});
+						XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+			}
+</script>
 	<head>
 		<meta charset="UTF-8">
 		<title>Profile Page</title>
 	</head>
-	<body bgcolor="FFFF00">
+	<body bgcolor="FFFF00" onload="getcontent()">
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
@@ -19,6 +40,7 @@
 			</form>
 			<h1><p align="center">My Profile</p></h1>
 			<br />
+			<p id="status" align="center"><br /></p>
 			<br />
 			<div id="My-Playlists">
 				<p align="center"><b>My Playlists</b></p>
@@ -37,6 +59,7 @@
 			<script src="audioPlayer.js"></script>
 			</script>
 			<script>
+
 				audioPlayer();
 				function audioPlayer(){
 					var currentSong = 0;
