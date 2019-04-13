@@ -42,7 +42,7 @@
 										
 										table += '<tr>';
 						
-										table += '<td> <form id="chooseSong">  <button type="submit"> Select song </button> <input type="hidden" id="songID" name="songID" value ="'+ results[r].songID + '"></form> </td>';
+										table += '<td> <form action="chooseSong">  <button type="submit"> Select song </button> <input type="hidden" id="songID" name="songID" value ="'+ results[r].songID + '"></form> </td>';
 										table += '<td>' + results[r].filename + '</td>';
 										table += '<td>' + results[r].songTag + '</td>';
 						
@@ -53,11 +53,11 @@
 										
 											table += '<tr>';
 						
-											table += '<td><form id="chooseArtist">  <button type="submit"> Select Artist </button> <input type="hidden" id="acntID" name="acntID" value ="' + results[r].acntID + '"></form></td>';
+											table += '<td><form action="followArtist" method="POST">  <button type="submit"> Follow Artist </button> <input type="hidden" id="acntID" name="acntID" value ="' + results[r].acntID + '"></form></td>';
 											table += '<td>' + results[r].stageName + '</td>';
 											table += '<td>' + results[r].location + '</td>';
 											table += '<td>' + results[r].artistTag + '</td>';
-						
+											table += '<td><form action="chooseArtist" method="POST"> <button type="submit"> View Artist </button> <input type="hidden" id="acntID" name="acntID" value="' +results[r].acntID + '"></form></td>';
 											table += '<tr>';
 										}
 									}else if (cols==5) {
@@ -65,7 +65,7 @@
 										
 											table += '<tr>';
 						
-											table += '<td><form id="choosePlaylist">  <button type="submit"> Select Playlist </button> <input type="hidden" id="playlistID" name="playlistID" value ="' + results[r].playlistID + '"></form></td>';
+											table += '<td><form action="choosePlaylist">  <button type="submit"> Select Playlist </button> <input type="hidden" id="playlistID" name="playlistID" value ="' + results[r].playlistID + '"></form></td>';
 											table += '<td>' + results[r].ownerID + '</td>';
 											table += '<td>' + results[r].name + '</td>';
 											table += '<td>' + results[r].album + '</td>';
@@ -81,7 +81,7 @@
 							
 							}
     					});
-
+    					
     					// Define what happens in case of error
     					XHR.addEventListener("error", function(event) {
       						alert('Oops! Something went wrong.');
@@ -94,7 +94,37 @@
     					XHR.send(FD);
 				
   				}
+				function sendData2() {//this sends the data for choosing an element, i dont think this needs to be changed
+    					var XHR = new XMLHttpRequest();
 
+    					// Bind the FormData object and the form element
+    					var FD = new FormData(form2);
+					
+
+    					// Define what happens on successful data submission
+    					XHR.addEventListener("load", function(event) {
+      						if (this.readyState == 4 && this.status == 200) {
+					
+							if (XHR.responseURL=='http://localhost:3000/resultSelect') {
+      								document.getElementById("response").innerHTML = this.responseText;
+								
+							}
+							
+						}
+    					});
+
+    					// Define what happens in case of error
+    					XHR.addEventListener("error", function(event) {
+      						alert('Oops! Something went wrong.');
+    					});
+
+    					// Set up our request
+    					XHR.open("POST", "resultSelect");
+
+    					// The data sent is what the user provided in the form
+    					XHR.send(FD);
+				
+  				}
   				// Access the form element...
   				var form = document.getElementById("search");
 
@@ -104,6 +134,16 @@
 
     					sendData();
   				});
+				var form2 = document.getElementById("choose");//this is an event listener for the whole table. notice its already listening to the empty "choose" element upon loading the page, before a search is done and a table is inserted into it. that shouldnt be the issue, just good to recognize that.
+
+				
+				form2.addEventListener("submit", function (event) {/*this may be the issue. every button in the table is a 'submit' type. i wish that would only submit the element that was clicked, but i guess when this listener is activated by one button, it submits the data for all the buttons it was listening to.
+				we could potentially count the number of elements there will be and create a new listener for each one (similar to how we used cols for building the table) but that seems really messy 
+				*/
+					event.preventDefault();
+
+					sendData2();
+				});
 				
 			});
 	</script>
@@ -116,6 +156,7 @@
 		</form> 
 		<div id="things" class ="wrap">
 			<form id="search" >
+
 				<p align="center"><span style = "font-size: 30px;">Find a </span>
 				<select name="searchObject">
 					<option value ="artist">Musician</option>
@@ -127,18 +168,21 @@
 					<option value ="tags">Tags</option>
 				</select>
 				<input type="text" name="value" required>
+				<p id="response" align="center"><br/></p>
 				<input type="submit" value="Search">
 				</p>
+
 			</form>
 		</div>
-		<p id="response" align="center"><br/></p>
+		<form id='choose'></form>
 	</body>
 	<style>
 		#things{
 			position:absolute;
 			left:10%;
-			top:40%;
+			top:20%;
 			width:80%;
+			height:100%;
 		}
 		#my-profile {
 			position:absolute;
@@ -169,12 +213,13 @@
 		input[type="submit"] {
 			position:absolute;
 			width:20%;
-			height:70%;
+			height:70px;
 			right:40%;
 			border: 1px solid black;
 			align="center";
 			background-color:orange;
-			top:160%;
+			top:5%;
+			right:5%;
 			font-size: 15px;
 			font-weight:bold;
 		}

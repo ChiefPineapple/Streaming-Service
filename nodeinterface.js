@@ -225,7 +225,15 @@ app.post('/search', function(request, response) {
 						response.send(results);
 					}
 					else{
-						response.send('not found');
+						connection.query('SELECT * FROM Artist WHERE location = ?', [value], function (error, results, fields){
+							if(results.length>0){
+								response.send(results);
+							}
+							else {
+								response.send('not found');
+							}
+						});
+						
 					}
 				});
 			}
@@ -276,11 +284,32 @@ app.post('/search', function(request, response) {
 	}
 });
 
+app.post('/resultSelect', function(request, response) {
+	console.log(request.body.acntID);
+	console.log(request.body.songID1);
+	console.log(request.body.playlistID);
+	if(request.body.acntID){
+		response.send("acntID is "+ request.body.acntID);
+	}
+	if(request.body.songID2) {
+		response.send("songID is " + request.body.songID2);
+	}
+	//response.end();
+});
+
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = file.name;
-		file.mv("/home/pi/nodelogin/uploads"+filename,function(err){
+		var tag = request.body.Tags;
+		connection.query('INSERT INTO Songs (filename, songTag) VALUES (?,?)', [filename, tag], function(error, results, fields) {
+			console.log('1 '+ error);
+			var insertedSong = results.insertId;
+			connection.query('INSERT INTO SongOwner VALUES (?,?)', [request.session.userID, insertedSong], function(error, results, fields) {
+				console.log('2 '+ error);
+			});
+		});
+		file.mv("/home/pi/nodelogin/uploads/"+filename,function(err){
 			if(err){
 				console.log(err)
 				response.send("error occured")
@@ -290,7 +319,6 @@ app.post('/upload', function(request, response) {
 		})
 	}
 });
-
 app.post('/loadProfile', function(request, response) {
 	if (request.session.isArtist==true)
 		response.redirect('/artistProfilePage');
