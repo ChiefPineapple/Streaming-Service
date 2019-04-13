@@ -155,6 +155,29 @@ app.post('/changePassword', function(request, response) {
 	});
 });
 
+app.post('/updateAccount', function(request,response) {
+	var username = request.body.username;
+	var password = request.body.password;
+	var newusername = request.body.newusername;
+	var newemail = request.body.newemail;
+	var newpassword = request.body.newpassword;
+	var email = request.session.email;
+	if (username && password && newusername && newpassword && newemail) {
+		connection.query('SELECT * FROM Accounts WHERE username = ? AND password = ?', [username, password], function(error, results, fields) {
+			if (results.length > 0) {
+				connection.query('UPDATE Accounts SET username= ?, email = ?, password = ? WHERE username=?', [newusername,newemail,newpassword,username], function(error, results, fields) {
+					request.session.username = newusername;
+					response.send('success');
+				});
+			} else {
+				response.send();
+			}			
+			//response.end();
+		});
+	}else{
+		response.send('Enter username and password!');
+	}
+});
 // the querys in this post are nested because the output of one query 
 app.post('/authCreateAccount', function(request, response) {
 	var username = request.body.username;

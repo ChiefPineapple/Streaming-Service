@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -21,28 +22,21 @@
 		</div>
 		<br/>
 		<br/>
-		<form = "updateAccount" method = "POST">
-		<p align="center"><b>Username </b><input type="text" name="currentusername" placeholder="(required)" required></p>
-		<p align="center"><b>Password </b><input type="password" name="currentpassword" placeholder="(required)" required></p>
-	<!--	<p align="center"><b>Email </b><input type="text" name="email" placeholder="Email"></p>
-		//<p align="center"><b>Tags </b><input type="tags" /></p>
-	-->	
-		<div id="update">
-			<p align=“center”><b>Update</b></p>
-		</div>
-		<br/>
-		<br/>
-		<p align="center">(if you dont want to change something, leave it blank)</p>
-		<br/>
-		<p align="center"><b>Username </b><input type="text" name="newusername"></p>
-		<p align="center"><b>Email </b><input type="text" name = "newemail"></p>
-		<p align="center"><b>Password </b><input type="password" name = "newpassword"></p>
-		<p align="center"><b>Retype Password </b><input type="password" name = "newpassword2"></p>
-		<p align="center"><b>Tags </b><input type="text" name="text"></p>
-		<form action="submit">
+		<form action= "updateAccount" method = "POST">
+			<p align="center"><b>Username </b><input type="text" name="username" placeholder="(required)" required></p>
+			<p align="center"><b>Password </b><input type="password" name="password" placeholder="(required)" required></p>
+			<div id="update">
+				<p align=“center”><b>Update</b>
+			</div>
+			<br/>
+			<br/>
+			<br/>
+			<p align="center"><b>Username </b><input type="text" name="newusername" required></p>
+			<p align="center"><b>Email </b><input type="text" name = "newemail" required></p>
+			<p align="center"><b>Password </b><input type="password" name = "newpassword" required></p>
 			<button id="submit"><b>Update</b></button>
+		
 		</form>
-	</form>
 	</body>
 	<style>
 		#current {
