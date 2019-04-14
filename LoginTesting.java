@@ -18,7 +18,7 @@ public class LoginTesting {
 		static public void createAccount(String username, String password, String verifyPassword, String email) throws Exception {
 	    try { WebClient webClient = new WebClient();
 	    //Retrieves login page
-		    final HtmlPage pageLogin = webClient.getPage("http:\\\\localhost:3000/loadCreateAccount");
+		    final HtmlPage pageLogin = webClient.getPage("http://localhost:3000/loadCreateAccount/");
 		//Prints title of page to ensure correct page is loaded
 		    System.out.println(pageLogin.getTitleText() + "\n");
 		    
