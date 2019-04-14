@@ -18,7 +18,7 @@ public class LoginTesting {
 		static public void createAccount(String username, String password, String verifyPassword, String email) throws Exception {
 	    try { WebClient webClient = new WebClient();
 	    //Retrieves login page
-		    final HtmlPage pageLogin = webClient.getPage("file:///C:/Users/David/Downloads/PineappleMiddleware/PineappleMiddleware/nodelogin/signup.html");
+		    final HtmlPage pageLogin = webClient.getPage("http:\\\\localhost:3000/loadCreateAccount");
 		//Prints title of page to ensure correct page is loaded
 		    System.out.println(pageLogin.getTitleText() + "\n");
 		    
@@ -45,32 +45,4 @@ public class LoginTesting {
 	    }
 	    
 	}
-		
-		static public void searchSong(String songname) throws Exception {
-			try { WebClient webClient = new WebClient();
-		    //Retrieves login page
-			    final HtmlPage pageLogin = webClient.getPage("file:///C:/Users/David/Downloads/PineappleMiddleware/PineappleMiddleware/nodelogin/search.html");
-			//Prints title of page to ensure correct page is loaded
-			    System.out.println(pageLogin.getTitleText() + "\n");
-			    
-			//Retrieves all input fields in the form and assigns them to variables
-			    final HtmlForm formLogin = pageLogin.getFormByName(""); //the name is blank for form and SubmitInput
-			    final HtmlSubmitInput button = formLogin.getInputByName("");
-			    final HtmlTextInput searchbar = formLogin.getInputByName("username");
-			   
-			    
-			//Assigns each parameter to its respective field variable
-			    searchbar.type(songname);
-			   
-			    
-		    //Submits form and loads the next page
-			    final HtmlPage page2 = button.click();
-			    
-			   webClient.close();
-		    }finally{
-		    	
-		    }
-		}
-	
-	
 }
