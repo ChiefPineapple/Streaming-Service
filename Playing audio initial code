@@ -1,0 +1,24 @@
+//Nodeinterface-side code
+app.get('/uploads', function(req,res){
+	// File to be served
+	
+	var fileId = req.query.id; 
+	var file = __dirname + '/uploads/' + fileId;
+	fs.exists(file,function(exists){
+		if(exists)
+		{
+			var rstream = fs.createReadStream(file);
+			rstream.pipe(res);
+		}
+		else
+		{
+			res.send("Its a 404");
+			res.end();
+		}
+	
+	});
+	
+});
+
+//Page-side code
+<a href = "http://localhost:3000/uploads?id=Monster.mp3" target="_blank"><button>Play</button></a>
