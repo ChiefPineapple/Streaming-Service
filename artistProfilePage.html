@@ -1,10 +1,66 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title>Profile Page</title>
 	</head>
-	<body bgcolor="FFFF00">
+	<body bgcolor="FFFF00" onload="getcontent()">
+	<script>
+			function runSelected(song){
+				loadDoc('/setSelectedSong', selected, song);
+			}
+			function getcontent() {
+				loadDoc('/getMyLib', myLib, 'none');
+				loadDoc('/getMyFollows', myFollows, 'none');
+			}
+			function loadDoc(url, cFunction, song) {
+				var XHR; 
+				XHR = new XMLHttpRequest ();
+				var fd = new FormData(song);
+				
+				XHR.onreadystatechange = function()  {
+					if (this.readyState == 4 && this.status == 200) {
+						if (XHR.responseURL!='http://localhost:3000/setSelectedSong') {
+							var results = JSON.parse(this.responseText);
+							cFunction(this, results);
+						}else{
+							cFunction(this);
+						}
+					}
+				};
+				//XHR.addEventListener("error", function(event) {
+				//	alert('Oops! Something went wrong.');
+				//});
+				XHR.open("POST", url, true);
+				var tits= "sfsfa;jheg;loahgfkjahsf;a;dhjsf;kljfglkfjgjfkgjfkgjfkgfkjgkfjgkfjgkfjgkfjgkfjgkllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll";
+				XHR.send(tits);
+			}
+			function myLib(XHR, results) {
+				console.log(results);
+				document.getElementById("status").innerHTML ='<button type="button" onclick="document.cookie="selectedSong='+results[0].filename+';expires=Wed, 18 Dec 2023 12:00:00 GMT"">Create Cookie 1</button>';
+				var x = document.createElement("BUTTON");
+				x.setAttribute("onclick", 'document.cookie = "selectedSong=Watershed; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/"'); 
+				//x.innerHTML=results[0].filename;
+				
+				//x.setAttribute("action", '/setSelectedSong');
+				//x.setAttribute("method", "get");
+				 //<input type="hidden" name="song" value ="'+ results[0].filename + '">';
+				//x.appendChild = '<input type="hidden" name="song" value ="'+ results[0].filename + '">'+results[0].filename+'';
+				
+				document.getElementById("status").appendChild(x);
+			}
+			function myFollows(XHR, results) {
+				console.log(results);
+				document.getElementById("status2").innerHTML = results[0].name;
+			}
+			function selected(XHR, results) {
+				console.log(results);
+			}
+			function setselected(song) {
+				document.cookie = "selectedSong="+song+"; path=/";
+			}
+</script>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; LEFT:2%;"/>
@@ -12,57 +68,34 @@
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; RIGHT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; BOTTOM:2%; RIGHT:2%;"/>
 		<div id="content">
-
 		<form action="homePage" method="GET">
 			<button id="Home">Home</button>
 		</form>
 		<form action="updatingPage" method="GET">
 			<button id="Update-Account">Update Account</button>
 		</form>
-
 		<h1><p align="center">My Profile</p></h1>
-		<br />
+		<!--<button type="button" onclick="loadDoc('/displayProfileContent', getcontent)"> tesssssssssssssssssssssssssssssssssst </button>
+		-->
+		
+		<p id="status2" align="center"><br /></p>
 		<br />
 		<div id="Playlists">
 			<p align="center"><b>Playlists</b></p>
 		</div>
 		<div id="Playlist-Lister">
 			<nav>
-				<ul>
-					<audio src="" controls id="audioPlayer">
-					</audio>
-					<center><li class+"current-song">PUMP UP NOW</li></center>
-					<center><li>chills bruh</li></center>
-				</ul>
+				<h3>pick song</h3>
+				
+				<audio controls>
+					<source src='http://localhost:3000/uploads' type="audio/mpeg" id="audioplay" value="kumuuuuuuuuuuuuuuuuuuuuuuuuuu">	
+					
+				</audio>
+				<p id="status" align="center"><br /></p>
+				
 			</nav>
 		</div>
-		<script src="https//code.jquery.com/jquery-2.2.0.js">
-		<script src="audioPlayer.js"></script>
-		</script>
-		<script>
-		audioPlayer();
-		function audioPlayer(){
-			var currentSong = 0;
-			$("audioPlayer")[0].src = $("#playlist li a")[0];
-			$("audioPlayer")[0].play();
-			$("#playlist li a ").click(function(e){
-				e.preventDefault();
-				$("audioPlayer")[0].src = this;
-				$("audioPlayer")[0].play();
-				$("playlist li").removeClass("current-song");
-					currentSong = $(this).parent().addClass("current-song");
-			]);
-			$("#audioPlayer")[0].addEventListener("ended", function())
-				currentSong++;
-					if(currentSong == $("#playlist li a").length)
-						currentSong = 0;
-					$("#playlist li").removeClass("current-song");
-					$("#playlist li:eq("+currentSong+")").addClass("current-song");
-					$("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
-					$("#audioPlayer")[0].play();
-				]);
-		}
-		</script>
+
 		<div id="Uploads">
 			<p align="center"><b>Uploads</b></p>
 		</div>
@@ -103,7 +136,6 @@
 				]);
 		}
 		</script>
-
 		
 		<form action="createPlaylistPage">
 			<button id="Create-Playlist">Create Playlist</button>
@@ -111,12 +143,16 @@
 		<form action="uploadPage" method="GET">
 			<button id="Upload-Song">Upload Song</button>
 		</form>
-
+		<form action= "uploads" method = "POST" target='_blank'>
+			<input type="text" name="id">
+			<input type="submit">
+		</form>
+		<a href = 'http://localhost:3000/uploads?id=Intergrude.wma' target='_blank'><button>Play</button></a>
+	
 	</body>
 	<style>
 		#Home {
 			position:absolute;
-
 			width:10%;
 			height:8%;
 			font-size:15px;
@@ -140,7 +176,6 @@
 			background-color:orange;
 			top:3%;
 			right:3%;
-
 		}
 		#Playlists {
 			background-color: orange;
@@ -162,7 +197,6 @@
 			right: 31%;
 			top: 15%;
 		}
-
 		#Upload-Lister{
 			display: inline-block;
 			border: 1px solid black;
@@ -184,11 +218,9 @@
 		#Create-Playlist{
 			background-color: orange;
 			border: 1px solid black;
-
 			font-weight:bold;
 			width: 15%;
 			height: 8%;
-
 			align="center";
 			position: absolute;
 			left:25%;
@@ -197,11 +229,9 @@
 		#Upload-Song{
 			background-color: orange;
 			border: 1px solid black;
-
 			font-weight:bold;
 			width: 15%;
 			height:8%;
-
 			align="center";
 			position: absolute;
 			right:25%;

@@ -40,6 +40,11 @@
 			</form>
 			<h1><p align="center">My Profile</p></h1>
 			<br />
+			
+				
+				
+			
+
 			<p id="status" align="center"><br /></p>
 			<br />
 			<div id="My-Playlists">
@@ -48,41 +53,16 @@
 			<div id="Playlist-Lister">
 				<nav>
 					<ul id="playlist">
-						<audio src="" controls id="audioPlayer">
+						<audio controls>
+						<source src='http://localhost:3000/uploads' type="audio/mpeg" id="kumuid">
+						
 						</audio>
-						<center><li class+"current-song">PUMP UP NOW</li></center>
-						<center><li>chillax bruh</li></center>
 					</ul>
 				</nav>
 			</div>
-			<script src="https//code.jquery.com/jquery-2.2.0.js">
-			<script src="audioPlayer.js"></script>
-			</script>
-			<script>
+			
 
-				audioPlayer();
-				function audioPlayer(){
-					var currentSong = 0;
-					$("audioPlayer")[0].src = $("#playlist li a")[0];
-					$("audioPlayer")[0].play();
-					$("#playlist li a ").click(function(e){
-						e.preventDefault();
-						$("audioPlayer")[0].src = this;
-						$("audioPlayer")[0].play();
-						$("playlist li").removeClass("current-song");
-							currentSong = $(this).parent().addClass("current-song");
-					]);
-					$("#audioPlayer")[0].addEventListener("ended", function())
-						currentSong++;
-						if(currentSong == $("#playlist li a").length)
-							currentSong = 0;
-						$("#playlist li").removeClass("current-song");
-						$("#playlist li:eq("+currentSong+")").addClass("current-song");
-						$("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
-						$("#audioPlayer")[0].play();
-					]);
-    				}
-			</script>	
+	
 			<form action="loadBecomeArtist" method="POST">
 				<button id="BecomeArtist">Become an Artist to Upload Songs!</button>
 			</form>
