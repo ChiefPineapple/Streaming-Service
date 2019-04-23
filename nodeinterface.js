@@ -9,7 +9,7 @@ var path = require('path');
 var nodemailer = require('nodemailer');
 var multer = require('multer');
 var fs = require('fs');//to access file system
-
+const querystring = require('querystring');
 
 app.use(upload())
 var connection = mysql.createConnection({
@@ -342,8 +342,8 @@ app.post('/resultSelect', function(request, response) {
 });
 
 app.post('/getMyLib', function(request, response) {
-	console.log(request);
-	connection.query('SELECT s.songID, s.filename, s.songTag FROM Songs as s WHERE s.songID in(SELECT songID FROM Playlist_has_Songs as ps WHERE ps.playlistID = (SELECT playlistID FROM Playlist as p WHERE p.name= "My Library" AND p.ownerID = ?))', [request.session.userID], function(error, results, fields) {
+	//console.log(request);
+	connection.query('SELECT s.songID, s.filename, a.stageName FROM Songs as s, Artist as a, songowner as so WHERE s.songID in(SELECT songID FROM Playlist_has_Songs as ps WHERE ps.playlistID = (SELECT playlistID FROM Playlist as p WHERE p.name= "My Library" AND p.ownerID = ?)) AND so.sID = s.songID AND a.acntID = so.acntID;', [request.session.userID], function(error, results, fields) {
 		if (error)
 			console.log('error 1 displayProfileContent ' + error);
 		//var mylib = results;
@@ -353,7 +353,7 @@ app.post('/getMyLib', function(request, response) {
 });
 
 app.post('/getMyFollows', function(request, response) {
-	connection.query('SELECT p.playlistID, p.name, a.stageName from Playlist as p, Artist as a WHERE p.ownerID in(SELECT af.artistID FROM AccountFollowsArtist as af WHERE af.acntID =?) AND a.acntID in(SELECT af.artistID FROM AccountFollowsArtist as af WHERE af.acntID =?) AND p.ownerID = a.acntID AND p.album = 1;', [request.session.userID, request.session.userID], function(error, results, fields) {
+	connection.query('SELECT p.playlistID, s.filename, s.songID, p.name, a.stageName from songs as s, Playlist as p, playlist_has_songs as ps, Artist as a WHERE p.ownerID in(SELECT af.artistID FROM AccountFollowsArtist as af WHERE af.acntID =?) AND a.acntID in(SELECT af.artistID FROM AccountFollowsArtist as af WHERE af.acntID =?) AND p.ownerID = a.acntID AND p.album = 1 AND ps.playlistID = p.playlistID AND ps.songID = s.songID;', [request.session.userID, request.session.userID], function(error, results, fields) {
 			
 		if (error)
 			console.log('error 2 displayProfileContent ' + error);
@@ -362,40 +362,18 @@ app.post('/getMyFollows', function(request, response) {
 		}
 	});
 });
-app.post('/displayProfileContent', function(request, response) {
-	console.log(request);
-	connection.query('SELECT s.filename, s.songTag FROM Songs as s WHERE s.songID in(SELECT songID FROM Playlist_has_Songs as ps WHERE ps.playlistID = (SELECT playlistID FROM Playlist as p WHERE p.name= "My Library" AND p.ownerID = ?))', [request.session.userID], function(error, results, fields) {
-		if (error)
-			console.log('error 1 displayProfileContent ' + error);
-		var mylib = results;
-		connection.query('SELECT p.playlistID, p.name, a.stageName from Playlist as p, Artist as a WHERE p.ownerID in(SELECT af.artistID FROM AccountFollowsArtist as af WHERE af.acntID =?) AND a.acntID in(SELECT af.artistID FROM AccountFollowsArtist as af WHERE af.acntID =?) AND p.ownerID = a.acntID AND p.album = 1;', [request.session.userID, request.session.userID], function(error, results, fields) {
-			
-			if (error)
-				console.log('error 2 displayProfileContent ' + error);
-			if (results.length>0){
-				var myfollows = results;
-				mylib.push(myfollows);
-				console.log("test 0 "+ mylib[0]);
-				console.log("test 1 "+ mylib[1]);
-				console.log("test 2 "+ mylib[2]);
-				console.log("test L "+ mylib.length);
-				//var content = Object.assign(myfollows,mylib);
-				var size = Object.keys(mylib).length;
-				console.log("size " + size);
-				mylib[size] = myfollows; 
-				console.log(mylib);
-				//console.log(content.length);
-				response.send(mylib);
-				
-			}
-		});
+app.post('/getMyUploads', function(request, response) {
+	connection.query('SELECT s.songID, s.filename, p.name FROM Songs as s, Playlist_has_Songs as ps, Playlist as p WHERE p.ownerID = ? AND p.album = 1 AND ps.playlistID = p.playlistID AND s.songID = ps.songId', [request.session.userID], function(error, results, fields) {
+		response.send(results);
 	});
 });
+
 		
 app.post('/upload', function(request, response) {
 	if(request.files){
 		var file = request.files.filename,
 			filename = request.body.songName;
+		console.log(file);
 		var songTag = request.body.songTag;
 		var albumTag = request.body.albumTag;
 		var albumName=request.body.albumName;
@@ -422,7 +400,8 @@ app.post('/upload', function(request, response) {
 				}
 			});
 		});
-		file.mv(__dirname + '/uploads/'+filename+".mp3",function(err){
+		var filenamesave = filename.replace(/\s/g,'');
+		file.mv(__dirname + '/uploads/'+filenamesave+".mp3",function(err){
 			if(err){
 				console.log(err)
 				response.send("error occured")
@@ -438,11 +417,21 @@ app.get('/setSelectedSong', function(request, response) {
 	request.session.selectedSong = request.body.song;
 	response.send(request.session.selectedSong);
 });
-
+app.post('/setTitle', function(request, response) {
+	var song = request.query.id;
+	console.log(request);
+	connection.query('SELECT filename FROM Songs WHERE songID =?', [song], function(error, results, fields) {
+		response.send(results);
+	});
+});
 app.get('/uploads', function(req,res){
-	if (req.session.selectedSong) {
-  const path =  __dirname + '/uploads/' +req.session.selectedSong + '.mp3';
-  console.log(req);
+	console.log(req.query.name);
+  var encoded = req.query.name;
+  
+  
+  
+  const path =  __dirname + '/uploads/' +encoded;
+  
   const stat = fs.statSync(path)
   const fileSize = stat.size
   const range = req.headers.range
@@ -470,7 +459,7 @@ app.get('/uploads', function(req,res){
     res.writeHead(200, head)
     fs.createReadStream(path).pipe(res)
   }
-	}
+  
 });
 
 app.post('/loadProfile', function(request, response) {

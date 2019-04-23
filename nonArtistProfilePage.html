@@ -1,25 +1,76 @@
 <!DOCTYPE html>
 <html>
 <script>
+
 			function getcontent() {
-				var XHR = new XMLHttpRequest ();
-				
-				XHR.open("POST", "displayProfileContent");
-				XHR.send("start");
-						XHR.addEventListener("load", function(event) {
-      						if (this.readyState == 4 && this.status == 200) {
-					
-								if (XHR.responseURL=='http://localhost:3000/displayProfileContent') {
-      								document.getElementById("status").innerHTML = this.responseText;
-								
-								}
-							
-							}
-    					});
-						XHR.addEventListener("error", function(event) {
-      						alert('Oops! Something went wrong.');
-    					});
+				loadDoc('/getMyLib', myLib, 'none');
+				loadDoc('/getMyFollows', myFollows, 'none');
 			}
+			function getNowPlaying(id) {
+				loadDoc('/setTitle?id='+id, setTheTitle, id);
+			}
+			function loadDoc(url, cFunction, song) {
+				var XHR; 
+				XHR = new XMLHttpRequest ();
+				var fd = new FormData(song);
+				
+				XHR.onreadystatechange = function()  {
+					if (this.readyState == 4 && this.status == 200) {
+						if (XHR.responseURL!='http://localhost:3000/setSelectedSong') {
+							var results = JSON.parse(this.responseText);
+							cFunction(this, results);
+						}else{
+							cFunction(this);
+						}
+					}
+				};
+				//XHR.addEventListener("error", function(event) {
+				//	alert('Oops! Something went wrong.');
+				//});
+				XHR.open("POST", url, true);
+				
+				XHR.send(song);
+			}
+			function myLib(XHR, results) {
+				table="<tr><th>Song</th><th>Artist</th></tr>";
+				for (i=0; i<results.length; i++) {
+					var item = 'getNowPlaying("'+results[i].songID+'")';
+					table += '<tr onclick='+item+'><td>';
+					table += results[i].filename;
+					table += "</td><td>";
+					table +=  results[i].stageName;
+					table += "</td></tr>";
+				}
+				document.getElementById("status2").innerHTML = table;
+				console.log(results);
+				
+			}
+			function myFollows(XHR, results) {
+			table2="<tr><th>Song</th><th>Artist</th><th>Album</th></tr>";
+				for (i=0; i<results.length; i++) {
+					var item = 'getNowPlaying("'+results[i].songID+'")';
+					table2 += '<tr onclick='+item+'><td>';
+					table2 += results[i].filename;
+					table2 += "</td><td>";
+					table2 +=  results[i].stageName;
+					table2 += "</td><td>";
+					table2 +=  results[i].name;
+					table2 += "</td></tr>";
+				}
+				document.getElementById("status3").innerHTML = table2;
+				
+			}
+			function setTheTitle(XHR, results) {
+				document.getElementById("status1").innerHTML = "now playing: " + results[0].filename;
+				selectSong(results[0].filename);
+			}
+			function selectSong(song) {
+				var actualfile = song.replace(/\s/g,'');
+				var uri = "http://localhost:3000/uploads?name=" + actualfile + ".mp3";
+				document.getElementById("poo").src = uri ;
+				document.getElementById("status1").innerHTML = "Now Playing: " + song;
+			}
+			
 </script>
 	<head>
 		<meta charset="UTF-8">
@@ -40,27 +91,27 @@
 			</form>
 			<h1><p align="center">My Profile</p></h1>
 			<br />
-			
+		<audio controls id = "poo" >
+					<source src='http://localhost:3000/uploads?name=Intergude' type="audio/mpeg" id="audioplay" value="kumu">
+					
+					
+				</audio>
+				<h3 id="status1" >pick a song my dude!</h3>
+		<div id="Playlists">
+			<p align="center"><b>Playlists</b></p>
+		</div>
+		<div id="Playlist-Lister">
+			<nav>
 				
 				
-			
-
-			<p id="status" align="center"><br /></p>
-			<br />
-			<div id="My-Playlists">
-				<p align="center"><b>My Playlists</b></p>
-			</div>
-			<div id="Playlist-Lister">
-				<nav>
-					<ul id="playlist">
-						<audio controls>
-						<source src='http://localhost:3000/uploads' type="audio/mpeg" id="kumuid">
-						
-						</audio>
-					</ul>
-				</nav>
-			</div>
-			
+				
+				<h3>My Library</h3> 
+				<table id="status2"> </table>
+				<h3 id="follow">My Follows</h3>
+				<table id="status3"><br /></table>
+			</nav>
+		</div>
+	
 
 	
 			<form action="loadBecomeArtist" method="POST">
@@ -72,6 +123,13 @@
 		</form>
 	</body>
 	<style>
+		table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
 		#Home {
 			position:absolute;
 			width:10%;
@@ -84,6 +142,22 @@
 			background-color:orange;
 			top:3%;
 			left:3%;
+		}
+		#poo {
+			position:absolute;
+			width:15%;
+			height:8%;
+			right:42%;
+			align="center";
+			top:10%;
+		}
+		#status1 {
+			position:absolute;
+			width:15%;
+			height:8%;
+			right:42%;
+			align="center";
+			top:17%;
 		}
 		#Update-Account {
 			position:absolute;
@@ -149,6 +223,26 @@
 		#playlist .current-song a{
 			color: blue;
 		}
+		#status2{
+			position:absolute;
+			overflow-y:scroll;
+			height:30%;
+			
+			display:block;
+			
+			}
+		#follow{
+			position:absolute;
+			bottom:40%;
+			}
+		#status3{
+			position:absolute;
+			overflow-y:scroll;
+			
+			display:block;
+			height:40%;
+			bottom:0%;
+			}
 		nav ul{min-height:100px;max-height: 100%;height:280px; width: 80%;align="center";}
 		nav ul{overflow:hidden; overflow-y:scroll;align="center";}
 	</style>

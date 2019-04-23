@@ -7,12 +7,14 @@
 	</head>
 	<body bgcolor="FFFF00" onload="getcontent()">
 	<script>
-			function runSelected(song){
-				loadDoc('/setSelectedSong', selected, song);
-			}
+			
 			function getcontent() {
 				loadDoc('/getMyLib', myLib, 'none');
 				loadDoc('/getMyFollows', myFollows, 'none');
+				loadDoc('/getMyUploads', myUploads, 'none');
+			}
+			function getNowPlaying(id) {
+				loadDoc('/setTitle?id='+id, setTheTitle, id);
 			}
 			function loadDoc(url, cFunction, song) {
 				var XHR; 
@@ -33,33 +35,62 @@
 				//	alert('Oops! Something went wrong.');
 				//});
 				XHR.open("POST", url, true);
-				var tits= "sfsfa;jheg;loahgfkjahsf;a;dhjsf;kljfglkfjgjfkgjfkgjfkgfkjgkfjgkfjgkfjgkfjgkfjgkllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll";
-				XHR.send(tits);
+				
+				XHR.send(song);
 			}
 			function myLib(XHR, results) {
+				table="<tr><th>Song</th><th>Artist</th></tr>";
+				for (i=0; i<results.length; i++) {
+					var item = 'getNowPlaying("'+results[i].songID+'")';
+					table += '<tr onclick='+item+'><td>';
+					table += results[i].filename;
+					table += "</td><td>";
+					table +=  results[i].stageName;
+					table += "</td></tr>";
+				}
+				document.getElementById("status2").innerHTML = table;
 				console.log(results);
-				document.getElementById("status").innerHTML ='<button type="button" onclick="document.cookie="selectedSong='+results[0].filename+';expires=Wed, 18 Dec 2023 12:00:00 GMT"">Create Cookie 1</button>';
-				var x = document.createElement("BUTTON");
-				x.setAttribute("onclick", 'document.cookie = "selectedSong=Watershed; expires=Thu, 18 Dec 2013 12:00:00 UTC; path=/"'); 
-				//x.innerHTML=results[0].filename;
 				
-				//x.setAttribute("action", '/setSelectedSong');
-				//x.setAttribute("method", "get");
-				 //<input type="hidden" name="song" value ="'+ results[0].filename + '">';
-				//x.appendChild = '<input type="hidden" name="song" value ="'+ results[0].filename + '">'+results[0].filename+'';
-				
-				document.getElementById("status").appendChild(x);
 			}
 			function myFollows(XHR, results) {
-				console.log(results);
-				document.getElementById("status2").innerHTML = results[0].name;
+				table2="<tr><th>Song</th><th>Artist</th><th>Album</th></tr>";
+				for (i=0; i<results.length; i++) {
+					var item = 'getNowPlaying("'+results[i].songID+'")';
+					table2 += '<tr onclick='+item+'><td>';
+					table2 += results[i].filename;
+					table2 += "</td><td>";
+					table2 +=  results[i].stageName;
+					table2 += "</td><td>";
+					table2 +=  results[i].name;
+					table2 += "</td></tr>";
+				}
+				document.getElementById("status3").innerHTML = table2;
+				
 			}
-			function selected(XHR, results) {
-				console.log(results);
+			function myUploads(XHR, results) {
+				table3="<tr><th>Song</th><th>Album</th></tr>";
+				for (i=0; i<results.length; i++) {
+					var item = 'getNowPlaying("'+results[i].songID+'")';
+					table3 += '<tr onclick='+item+'><td>';
+					table3 += results[i].filename;
+					table3 += "</td><td>";
+					table3 +=  results[i].name;
+					table3 += "</td></tr>";
+				}
+				document.getElementById("status4").innerHTML = table3;
 			}
-			function setselected(song) {
-				document.cookie = "selectedSong="+song+"; path=/";
+			function setTheTitle(XHR, results) {
+				document.getElementById("status1").innerHTML = "now playing: " + results[0].filename;
+				selectSong(results[0].filename);
 			}
+			
+			function selectSong(song) {
+				var actualfile = song.replace(/\s/g,'');
+				var uri = "http://localhost:3000/uploads?name=" + actualfile + ".mp3";
+				document.getElementById("poo").src = uri ;
+				
+			}
+			
 </script>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:45%; LEFT:2%;"/>
 		<img width="8%" height="20%" src="http://www.amisvegetarian.com/wp-content/uploads/2018/09/pineapple-clipart-cute-pineapples-clipart-set-pineapple-clip-art-fun-pineapples-school-clipart.jpg" alt="Pineapple" style="position:absolute; TOP:15%; LEFT:2%;"/>
@@ -75,24 +106,25 @@
 			<button id="Update-Account">Update Account</button>
 		</form>
 		<h1><p align="center">My Profile</p></h1>
-		<!--<button type="button" onclick="loadDoc('/displayProfileContent', getcontent)"> tesssssssssssssssssssssssssssssssssst </button>
-		-->
-		
-		<p id="status2" align="center"><br /></p>
 		<br />
+		<audio controls id = "poo" >
+					<source src='http://localhost:3000/uploads?name=Intergude' type="audio/mpeg" id="audioplay" value="kumu">
+					
+					
+				</audio>
+				<h3 id="status1" >pick a song</h3>
 		<div id="Playlists">
 			<p align="center"><b>Playlists</b></p>
 		</div>
 		<div id="Playlist-Lister">
 			<nav>
-				<h3>pick song</h3>
 				
-				<audio controls>
-					<source src='http://localhost:3000/uploads' type="audio/mpeg" id="audioplay" value="kumuuuuuuuuuuuuuuuuuuuuuuuuuu">	
-					
-				</audio>
-				<p id="status" align="center"><br /></p>
 				
+				
+				<h3>My Library</h3> 
+				<table id="status2"> </table>
+				<h3 id="follow">My Follows</h3>
+				<table id="status3"><br /></table>
 			</nav>
 		</div>
 
@@ -102,40 +134,12 @@
 		<div id="Upload-Lister">
 			<nav>
 				<ul>
-					<audio src="" controls id="audioPlayer">
-					</audio>
-					<center><li class+"current-song">Alphabet Aerobics</li></center>
-					<center><li>Thrift Shop</li></center>
+					
+					<table id="status4"></table>
 				</ul>
 			</nav>
 		</div>
-		<script src="https//code.jquery.com/jquery-2.2.0.js">
-		<script src="audioPlayer.js"></script>
-		</script>
-		<script>
-		audioPlayer();
-		function audioPlayer(){
-			var currentSong = 0;
-			$("audioPlayer")[0].src = $("#playlist li a")[0];
-			$("audioPlayer")[0].play();
-			$("#playlist li a ").click(function(e){
-				e.preventDefault();
-				$("audioPlayer")[0].src = this;
-				$("audioPlayer")[0].play();
-				$("playlist li").removeClass("current-song");
-					currentSong = $(this).parent().addClass("current-song");
-			]);
-			$("#audioPlayer")[0].addEventListener("ended", function())
-				currentSong++;
-					if(currentSong == $("#playlist li a").length)
-						currentSong = 0;
-					$("#playlist li").removeClass("current-song");
-					$("#playlist li:eq("+currentSong+")").addClass("current-song");
-					$("#audioPlayer")[0].src = $("#playlist li a")[currentSong].href;
-					$("#audioPlayer")[0].play();
-				]);
-		}
-		</script>
+		
 		
 		<form action="createPlaylistPage">
 			<button id="Create-Playlist">Create Playlist</button>
@@ -143,14 +147,18 @@
 		<form action="uploadPage" method="GET">
 			<button id="Upload-Song">Upload Song</button>
 		</form>
-		<form action= "uploads" method = "POST" target='_blank'>
-			<input type="text" name="id">
-			<input type="submit">
-		</form>
-		<a href = 'http://localhost:3000/uploads?id=Intergrude.wma' target='_blank'><button>Play</button></a>
+		
+		
 	
 	</body>
 	<style>
+	table,th,td {
+  border : 1px solid black;
+  border-collapse: collapse;
+}
+th,td {
+  padding: 5px;
+}
 		#Home {
 			position:absolute;
 			width:10%;
@@ -163,6 +171,22 @@
 			background-color:orange;
 			top:3%;
 			left:3%;
+		}
+		#poo {
+			position:absolute;
+			width:15%;
+			height:8%;
+			right:42%;
+			align="center";
+			top:10%;
+		}
+		#status1 {
+			position:absolute;
+			width:15%;
+			height:8%;
+			right:42%;
+			align="center";
+			top:17%;
 		}
 		#Update-Account {
 			position:absolute;
@@ -244,6 +268,26 @@
 		#playlist .current-song a{
 			color: blue;
 		}
+		#status2{
+			position:absolute;
+			overflow-y:scroll;
+			height:30%;
+			
+			display:block;
+			
+			}
+		#follow{
+			position:absolute;
+			bottom:40%;
+			}
+		#status3{
+			position:absolute;
+			overflow-y:scroll;
+			
+			display:block;
+			height:40%;
+			bottom:0%;
+			}
 		nav ul{min-height:100px;max-height: 100%;height:280px; width: 80%;align="center";}
 		nav ul{overflow:hidden; overflow-y:scroll;align="center";}
 	</style>
